@@ -43,8 +43,7 @@ public class UnitsMove : MonoBehaviour
         {
             Vector3 mousePos = new Vector3(hit.point.x, (hit.transform.localScale.y / 2) + 3, hit.point.z);
 
-            while (selectedUnit.transform.position != mousePos)
-            { selectedUnit.transform.position = mousePos; }
+            selectedUnit.transform.position = mousePos;
         }
     }
 

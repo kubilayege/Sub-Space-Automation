@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Pieces : MonoBehaviour
 {
-    public Races race;
     public const int pieceID = 0;  
     public GameObject pieceModel;
     public Sprite ICON;
