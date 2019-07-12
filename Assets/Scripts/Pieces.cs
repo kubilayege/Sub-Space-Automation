@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Pieces : MonoBehaviour
 {
+    public string pieceName;
     public const int pieceID = 0;  
-    public GameObject pieceModel;
     public Sprite ICON;
-    public int health;
+    public const int maxHealth = 500;
+    public int health = maxHealth;
     public int mana;
     public int armor;
     public int magicalResistance;
