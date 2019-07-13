@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CourierMovement : MonoBehaviour
 {
-    float maxDistance = 2000;
-    [SerializeField] float rotSpeed = 20f;
-    [SerializeField] float moveSpeed = 400f;
-    bool isMoving;
     Vector3 targetPosition;
     Vector3 lookAtTarget;
     Quaternion playerRot;
+
+    float maxDistance = 2000;
+    float rotSpeed = 20f;
+    float moveSpeed = 400f;
+    bool isMoving;
     
     private void Update()
     {
@@ -32,13 +33,14 @@ public class CourierMovement : MonoBehaviour
     void SetTargetPositionForMove()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if(Physics.Raycast(ray, out hit, maxDistance))
+        
+        if(Physics.Raycast(ray, out RaycastHit hit, maxDistance))
         {
             targetPosition = hit.point;
-            lookAtTarget = new Vector3(targetPosition.x - transform.position.x,
-                                       0, targetPosition.z - transform.position.z);
+            lookAtTarget = new Vector3(targetPosition.x - transform.position.x , 
+                                       0 ,
+                                       targetPosition.z - transform.position.z);
+
             if(lookAtTarget != Vector3.zero)
                 playerRot = Quaternion.LookRotation(lookAtTarget);
 
@@ -52,14 +54,14 @@ public class CourierMovement : MonoBehaviour
                                                 playerRot,
                                                 rotSpeed * Time.deltaTime);
 
-        transform.position = Vector3.MoveTowards(transform.position, 
-                                                new Vector3(targetPosition.x, transform.localScale.y/2 +1 ,targetPosition.z), 
-                                                moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position , 
+                                                new Vector3(targetPosition.x, transform.localScale.y/2 +1 ,targetPosition.z) , 
+                                                moveSpeed * Time.deltaTime );
 
         if(transform.position == targetPosition)
         {
             isMoving = false;
         }
     }
-
+    
 }
