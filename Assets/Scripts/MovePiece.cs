@@ -53,11 +53,14 @@ public class MovePiece : MonoBehaviour
     public void SelectUnit()
     {
         RaycastHit unitCandidate = SendRayToMousePosition();
-        if (unitCandidate.collider.gameObject.CompareTag("Unit"))
+        if (unitCandidate != null)
         {
-            selectedUnit = unitCandidate.collider.gameObject;
-            originOfSelectedUnit = selectedUnit.transform;
-            candidateObj = GameObject.Instantiate(candidatePrefab, new Vector3(selectedUnit.transform.position.x, 1.0f, selectedUnit.transform.position.z), Quaternion.identity);
+            if (unitCandidate.collider.gameObject.CompareTag("Unit"))
+            {
+                selectedUnit = unitCandidate.collider.gameObject;
+                originOfSelectedUnit = selectedUnit.transform;
+                candidateObj = GameObject.Instantiate(candidatePrefab, new Vector3(selectedUnit.transform.position.x, 1.0f, selectedUnit.transform.position.z), Quaternion.identity);
+            }
         }
     }
 
