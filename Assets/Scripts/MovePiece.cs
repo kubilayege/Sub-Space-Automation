@@ -5,6 +5,9 @@ public class MovePiece : MonoBehaviour
 {
     [SerializeField]
     GameObject selectedUnit = null;
+    [SerializeField]
+    GameObject candidatePrefab = null;
+    GameObject candidateObj;
     PlayerController playerController;
     Transform originOfSelectedUnit;
     float maxRayDistance = 5000f;
@@ -24,11 +27,11 @@ public class MovePiece : MonoBehaviour
         {
             SelectUnit();
         }
-        //if (!Input.GetMouseButtonUp(0) && selectedUnit != null)
-        //{
-        //    MoveUnit(selectedUnit);
-        //}
-        if(Input.GetMouseButtonUp(0))
+        if (!Input.GetMouseButtonUp(0) && selectedUnit != null)
+        {
+            candidatePlaceHolder();
+        }
+        if (Input.GetMouseButtonUp(0))
         {
             if (selectedUnit != null) MoveUnit(selectedUnit);
             selectedUnit = null;
@@ -54,24 +57,39 @@ public class MovePiece : MonoBehaviour
         {
             selectedUnit = unitCandidate.collider.gameObject;
             originOfSelectedUnit = selectedUnit.transform;
+            candidateObj = GameObject.Instantiate(candidatePrefab, new Vector3(selectedUnit.transform.position.x, 1.0f, selectedUnit.transform.position.z), Quaternion.identity);
         }
     }
 
     public void MoveUnit(GameObject selectedUnit) //bu kod doğru...
     {
         RaycastHit placeCandidate = SendRayToMousePosition();
-        selectedUnit.transform.parent.position = placableBoardPosition(placeCandidate);
+        if (placeCandidate.collider.gameObject.CompareTag("Unit"))
+        {
+            Vector3 newPos = placeCandidate.transform.position;
+            placeCandidate.collider.gameObject.transform.parent.position = originOfSelectedUnit.position;
+            selectedUnit.transform.parent.position = newPos;
+        }
+        else
+        {
+            selectedUnit.transform.parent.position = placableBoardPosition(placeCandidate);
+        }
+        Destroy(candidateObj);
     }
-
+    public void candidatePlaceHolder()
+    {
+        Vector3 tempPos = placableBoardPosition(SendRayToMousePosition());
+        candidateObj.transform.position = new Vector3(tempPos.x, 1, tempPos.z);
+    }
     Vector3 placableBoardPosition(RaycastHit candidatePlace)
     {
         Vector3 newPos = originOfSelectedUnit.transform.position;
-        if (candidatePlace.collider.gameObject.CompareTag("Unit"))
-        {
-            newPos = candidatePlace.transform.position;
-            candidatePlace.collider.gameObject.transform.parent.position = originOfSelectedUnit.position;
-            return newPos;
-        }
+        //if (candidatePlace.collider.gameObject.CompareTag("Unit"))
+        //{
+        //    newPos = candidatePlace.transform.position;
+        //    candidatePlace.collider.gameObject.transform.parent.position = originOfSelectedUnit.position;
+        //    return newPos;
+        //}
         for (int i = 0; i < playerController.chessboardSize / 2; i++)
         {
             if(candidatePlace.transform.gameObject.name == playerController.chessboardPieces[i].gameObject.name)
