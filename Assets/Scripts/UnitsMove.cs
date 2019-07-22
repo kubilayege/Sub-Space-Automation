@@ -4,13 +4,13 @@ public class UnitsMove : MonoBehaviour
 {
     [SerializeField]
     GameObject selectedUnit;
-    PlayerController playerController;
+    Board playerController;
 
     float maxRayDistance = 5000f;
 
     private void Start()
     {
-        playerController = GameObject.Find("PlayerController").GetComponent<PlayerController>();
+        playerController = GameObject.Find("PlayerController").GetComponent<Board>();
     }
     private void Update()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Board : MonoBehaviour
 {
     public GameObject chessboard;
     public GameObject bench;
@@ -18,6 +18,10 @@ public class PlayerController : MonoBehaviour
 
     void GetAllBoardPiece()
     {
+        chessboard = transform.GetChild(0).gameObject;
+        bench = transform.GetChild(1).gameObject;
+        
+
         for (int i = 0; i < chessboardSize; i++)
         {
             chessboardPieces[i] = chessboard.transform.GetChild(i).gameObject;

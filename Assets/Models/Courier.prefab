@@ -13,9 +13,7 @@ GameObject:
   - component: {fileID: 2590940524999168351}
   - component: {fileID: 2590940524999168350}
   - component: {fileID: 2590940524999168347}
-  - component: {fileID: 2590940524999168349}
   - component: {fileID: 2590940524999168346}
-  - component: {fileID: 2590940524999168340}
   m_Layer: 2
   m_Name: Courier
   m_TagString: Untagged
@@ -112,19 +110,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &2590940524999168349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2590940524999168348}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc96d1080440a84d893e908399a70bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedUnit: {fileID: 0}
 --- !u!114 &2590940524999168346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,20 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330dbab8587b7bc47b601350bf1ae9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2590940524999168340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2590940524999168348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8087ad24629e88841bb8293f521340b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  candidatePrefab: {fileID: 8683942460830852044, guid: 077fe17c6c6fd0a46af4bdbe9420b9cd,
-    type: 3}
 --- !u!1 &2590940525808356634
 GameObject:
   m_ObjectHideFlags: 0

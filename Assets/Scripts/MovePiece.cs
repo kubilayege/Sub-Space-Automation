@@ -7,13 +7,13 @@ public class MovePiece : MonoBehaviour
     GameObject candidatePrefab = null;
     GameObject candidateObj;
     GameObject selectedUnit = null;
-    PlayerController playerController;
+    Board board;
     Transform originOfSelectedUnit;
     float maxRayDistance = 5000f;
 
     private void Start()
     {
-        playerController = GameObject.Find("PlayerController").GetComponent<PlayerController>();
+        board = transform.parent.gameObject.GetComponent<Board>();
     }
     private void Update()
     {
@@ -64,6 +64,7 @@ public class MovePiece : MonoBehaviour
         GameObject placeCandidate = SendRayToMousePosition();
         if (placeCandidate != null && placeCandidate.CompareTag("Unit"))
         {
+            Debug.Log("hi");
             Vector3 newPos = placeCandidate.transform.position;
             placeCandidate.transform.parent.position = originOfSelectedUnit.position;
             selectedUnit.transform.parent.position = newPos;
@@ -87,17 +88,17 @@ public class MovePiece : MonoBehaviour
 
         if(candidatePlace != null)
         {
-            for (int i = 0; i < playerController.chessboardSize / 2; i++)
+            for (int i = 0; i < board.chessboardSize / 2; i++)
             {
-                if (candidatePlace.transform.gameObject.name == playerController.chessboardPieces[i].gameObject.name)
+                if (candidatePlace.transform.gameObject.name == board.chessboardPieces[i].gameObject.name)
                 {
                     newPos = new Vector3(candidatePlace.transform.position.x, (selectedUnit.transform.localScale.y / 2) + 3, candidatePlace.transform.position.z);
                     return newPos;
                 }
             }
-            for (int i = 0; i < playerController.benchSize; i++)
+            for (int i = 0; i < board.benchSize; i++)
             {
-                if (candidatePlace.transform.gameObject.name == playerController.benchPieces[i].gameObject.name)
+                if (candidatePlace.transform.gameObject.name == board.benchPieces[i].gameObject.name)
                 {
                     newPos = new Vector3(candidatePlace.transform.position.x, (selectedUnit.transform.localScale.y / 2) + 3, candidatePlace.transform.position.z);
                     return newPos;
