@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4ab07b5b0079e884a86e0cc9ac9aefca
+NativeFormatImporter:
+  externalObjects:
+  - first:
+      type: 
+      assembly: 
+      name: 
+    second: {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0,
+      type: 3}
+  mainObjectFileID: 8400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

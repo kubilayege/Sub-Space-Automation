@@ -8,12 +8,14 @@ public class InGameUI : MonoBehaviour
 
     public void Start()
     {
-        shopPanel = transform.GetChild(1).transform.GetChild(1).gameObject;
+        
     }
 
 
     public void ToggleShop()
     {
+        shopPanel = transform.GetChild(1).GetChild(0).gameObject;
         shopPanel.SetActive(!shopPanel.activeInHierarchy);
+        Debug.Log(shopPanel.name + "" );
     }
 }
