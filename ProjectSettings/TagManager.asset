@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Unit
   - ClassOrRace
+  - Slot
   layers:
   - Default
   - TransparentFX

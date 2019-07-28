@@ -7,6 +7,7 @@ public class MovePiece : MonoBehaviour
     GameObject candidatePrefab = null;
     GameObject candidateObj;
     GameObject selectedUnit = null;
+    
     Board board;
     Transform originOfSelectedUnit;
     float maxRayDistance = 5000f;
@@ -25,6 +26,7 @@ public class MovePiece : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && selectedUnit == null)
         {
             SelectUnit();
+            
         }
         if (Input.GetMouseButton(0) && selectedUnit != null)
         {
@@ -90,7 +92,7 @@ public class MovePiece : MonoBehaviour
         {
             for (int i = 0; i < board.chessboardSize / 2; i++)
             {
-                if (candidatePlace.transform.gameObject.name == board.chessboardPieces[i].gameObject.name)
+                if (candidatePlace.transform.gameObject.name == board.chessboardPosition[i].gameObject.name)
                 {
                     newPos = new Vector3(candidatePlace.transform.position.x, (selectedUnit.transform.localScale.y / 2) + 3, candidatePlace.transform.position.z);
                     return newPos;
@@ -98,7 +100,7 @@ public class MovePiece : MonoBehaviour
             }
             for (int i = 0; i < board.benchSize; i++)
             {
-                if (candidatePlace.transform.gameObject.name == board.benchPieces[i].gameObject.name)
+                if (candidatePlace.transform.gameObject.name == board.benchPosition[i].gameObject.name)
                 {
                     newPos = new Vector3(candidatePlace.transform.position.x, (selectedUnit.transform.localScale.y / 2) + 3, candidatePlace.transform.position.z);
                     return newPos;
@@ -107,4 +109,5 @@ public class MovePiece : MonoBehaviour
         }
         return newPos;
     }
+    
 }

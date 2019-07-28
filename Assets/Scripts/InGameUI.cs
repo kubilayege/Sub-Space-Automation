@@ -10,7 +10,7 @@ public class InGameUI : MonoBehaviour
     {
         
     }
-
+    
 
     public void ToggleShop()
     {
