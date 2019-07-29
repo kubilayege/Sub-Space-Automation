@@ -1516,6 +1516,8 @@ MonoBehaviour:
   - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
   pieceSlotsList: []
   tempShopPieces: []
+  match: {fileID: 0}
+  board: {fileID: 0}
 --- !u!1 &2156136502123319794
 GameObject:
   m_ObjectHideFlags: 0
@@ -5542,6 +5544,7 @@ GameObject:
   - component: {fileID: 5458074950651483516}
   - component: {fileID: 958736420995774092}
   - component: {fileID: 4827230310692522162}
+  - component: {fileID: 5508210978672158979}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -5633,6 +5636,23 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5508210978672158979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7009260683843028578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc1e7208891023479fd3152680f5b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preaperingTime: 5
+  fightTime: 10
+  gameTime: 0
+  round: 0
+  preaperOrFight: 1
 --- !u!1 &7560924828817632237
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class Shop : MonoBehaviour
     public Match match;
     public Board board;
     GameObject tempSelectedUnit;
+    GameObject forAddUnitToPool;
     void Start()
     {
         InitializeVariables();
@@ -36,19 +37,33 @@ public class Shop : MonoBehaviour
         }
     }
 
-    void DrawPieces()
+    public void DrawPieces()
     {
-        for(int i=0; i < 5; i++)
+        GameObject pieceSlots = transform.GetChild(0).gameObject;
+        for (int i=0; i < pieceSlots.transform.childCount; i++)
         {
             int maxIndex = piecesOnPool.Count - 1;
             int randomIndex = Random.Range(0, maxIndex);
-            Debug.Log(piecesOnPool.Count);
+           // Debug.Log(piecesOnPool.Count);
             tempShopPieces.Add(Instantiate(piecesOnPool[randomIndex], pieceSlotsList[i].transform.position, Quaternion.identity, pieceSlotsList[i].transform));
             
             piecesOnPool.RemoveAt(randomIndex);
         }
     }
-
+   public void ClearSlot()
+    {
+        Debug.Log("i called from event manager");
+        for (int i = 0; i < 5; i++)
+        {
+            if(transform.GetChild(0).GetChild(i).GetChild(1).gameObject != null)
+            {
+                forAddUnitToPool = transform.GetChild(0).GetChild(i).GetChild(1).gameObject;
+                piecesOnPool.Add(forAddUnitToPool);
+                Destroy(transform.GetChild(0).GetChild(i).GetChild(1).gameObject); //  destroy from shop slot
+            }
+            
+        }
+    }
     public GameObject SendRayToMousePosition()//mouse pozisyonundaki objeyi geri döndürür.
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -62,7 +77,6 @@ public class Shop : MonoBehaviour
             return null;
         }
     }
-
     void BuyedUnitMove()
     {
         if(transform.gameObject.activeSelf)
@@ -78,7 +92,7 @@ public class Shop : MonoBehaviour
                         SendRayToMousePosition().transform.parent.position = newPos;
                         board.playerBenchList[i] = SendRayToMousePosition().transform.parent.gameObject;
                         SendRayToMousePosition().transform.parent.parent = board.transform.GetChild(3).transform;
-                        Debug.Log("unit " + board.playerBenchList[i]);
+                        tempSelectedUnit = null;
                         break;
                         
                     }

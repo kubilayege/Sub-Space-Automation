@@ -51,7 +51,7 @@ public class MovePiece : MonoBehaviour
             return null;
         }
     }
-    public void SelectUnit() //birim seçiliver uygun alanı belli eden bir nesne spawnlanır.
+    public void SelectUnit() //birim seçilir ve uygun alanı belli eden bir nesne spawnlanır.
     {
         GameObject unitCandidate = SendRayToMousePosition();
         if (unitCandidate != null && unitCandidate.CompareTag("Unit"))
@@ -66,7 +66,6 @@ public class MovePiece : MonoBehaviour
         GameObject placeCandidate = SendRayToMousePosition();
         if (placeCandidate != null && placeCandidate.CompareTag("Unit"))
         {
-            Debug.Log("hi");
             Vector3 newPos = placeCandidate.transform.position;
             placeCandidate.transform.parent.position = originOfSelectedUnit.position;
             selectedUnit.transform.parent.position = newPos;
