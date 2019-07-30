@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
-    public List<GameObject> piecesOnPool;
-    public List<Transform> pieceSlotsList;
+    public List<GameObject> gamePieces; // Oyundaki her piece burda tutulacak
+    public List<Transform> pieceSlotsList; //Shop slot pozisyonları listesi
     public List<GameObject> tempShopPieces;
+    public List<GameObject> piecePool;
     float maxRayDistance = 5000;
+    int poolSize = 100;
     public Match match;
     public Board board;
-    GameObject tempSelectedUnit;
     GameObject forAddUnitToPool;
     void Start()
     {
         InitializeVariables();
-        DrawPieces();
+        //DrawPieces();
         match = transform.parent.parent.parent.GetComponent<Match>();
         board = match.boards[0].GetComponent<Board>();
     }
@@ -35,35 +36,46 @@ public class Shop : MonoBehaviour
         {
             pieceSlotsList.Add(pieceSlots.transform.GetChild(i));
         }
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            piecePool.Add(Instantiate(gamePieces[i%2], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, this.transform));
+        }
+
     }
 
     public void DrawPieces()
     {
-        GameObject pieceSlots = transform.GetChild(0).gameObject;
-        for (int i=0; i < pieceSlots.transform.childCount; i++)
+        //GameObject pieceSlots = transform.GetChild(0).gameObject;
+        for (int i=0; i < pieceSlotsList.Count; i++)
         {
-            int maxIndex = piecesOnPool.Count - 1;
-            int randomIndex = Random.Range(0, maxIndex);
-           // Debug.Log(piecesOnPool.Count);
-            tempShopPieces.Add(Instantiate(piecesOnPool[randomIndex], pieceSlotsList[i].transform.position, Quaternion.identity, pieceSlotsList[i].transform));
-            
-            piecesOnPool.RemoveAt(randomIndex);
+            if(pieceSlotsList.Count != 0)
+            {
+                int maxIndex = piecePool.Count - 1;
+                int randomIndex = Random.Range(0, maxIndex);
+                // Debug.Log(piecesOnPool.Count);
+                tempShopPieces.Add(piecePool[randomIndex]);
+                tempShopPieces[tempShopPieces.Count - 1].transform.position = pieceSlotsList[i].transform.position;
+                tempShopPieces[tempShopPieces.Count - 1].transform.parent = pieceSlotsList[i].transform;
+                piecePool.RemoveAt(randomIndex);
+            }
         }
     }
    public void ClearSlot()
     {
-        Debug.Log("i called from event manager");
         for (int i = 0; i < 5; i++)
         {
-            if(transform.GetChild(0).GetChild(i).GetChild(1).gameObject != null)
+            if(transform.GetChild(0).GetChild(i).childCount == 2)
             {
                 forAddUnitToPool = transform.GetChild(0).GetChild(i).GetChild(1).gameObject;
-                piecesOnPool.Add(forAddUnitToPool);
-                Destroy(transform.GetChild(0).GetChild(i).GetChild(1).gameObject); //  destroy from shop slot
+                piecePool.Add(forAddUnitToPool);
+                tempShopPieces.Remove(forAddUnitToPool); //  remove from shop slot
+                forAddUnitToPool.transform.position = new Vector3(6000 - i * 128, 0, 1600);
+                forAddUnitToPool.transform.parent = this.transform;
             }
-            
         }
     }
+
     public GameObject SendRayToMousePosition()//mouse pozisyonundaki objeyi geri döndürür.
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -81,8 +93,9 @@ public class Shop : MonoBehaviour
     {
         if(transform.gameObject.activeSelf)
         {
-            tempSelectedUnit = SendRayToMousePosition();
-            if (tempSelectedUnit.transform.parent.parent.CompareTag("Slot"))
+
+            GameObject tempSelectedUnit = SendRayToMousePosition();
+            if (tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
             {
                 for (int i = 0; i < board.benchSize; i++)
                 {
@@ -92,6 +105,7 @@ public class Shop : MonoBehaviour
                         SendRayToMousePosition().transform.parent.position = newPos;
                         board.playerBenchList[i] = SendRayToMousePosition().transform.parent.gameObject;
                         SendRayToMousePosition().transform.parent.parent = board.transform.GetChild(3).transform;
+                        tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);
                         tempSelectedUnit = null;
                         break;
                         

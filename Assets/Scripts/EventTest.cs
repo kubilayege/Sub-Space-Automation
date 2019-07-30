@@ -12,9 +12,10 @@ public class EventTest : MonoBehaviour
     Shop shop;
     void Start()
     {
-        PreaperingRound(preaperingTime);
 
         shop = transform.parent.GetChild(1).GetChild(0).GetComponent<Shop>();
+        PreaperingRound(preaperingTime);
+
     }
 
     void PreaperingRound(float time)

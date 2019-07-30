@@ -1503,19 +1503,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73affe6dcd5749642bf04b36d0ce955c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piecesOnPool:
-  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
-  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
-  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
-  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
-  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
-  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
-  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
-  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
+  gamePieces:
   - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
   - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
   pieceSlotsList: []
   tempShopPieces: []
+  piecePool: []
   match: {fileID: 0}
   board: {fileID: 0}
 --- !u!1 &2156136502123319794
