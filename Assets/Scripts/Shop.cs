@@ -101,11 +101,11 @@ public class Shop : MonoBehaviour
                 {
                     if (board.playerBenchList[i] == null)
                     {
-                        Vector3 newPos = new Vector3(board.benchPosition[i].transform.position.x, (SendRayToMousePosition().transform.localScale.y / 2) + 3, board.benchPosition[i].transform.position.z);
-                        SendRayToMousePosition().transform.parent.position = newPos;
-                        board.playerBenchList[i] = SendRayToMousePosition().transform.parent.gameObject;
-                        SendRayToMousePosition().transform.parent.parent = board.transform.GetChild(3).transform;
-                        tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);
+                        Vector3 newPos = new Vector3(board.benchPosition[i].transform.position.x, (tempSelectedUnit.transform.localScale.y / 2) + 3, board.benchPosition[i].transform.position.z);
+                        tempSelectedUnit.transform.parent.position = newPos;
+                        board.playerBenchList[i] = tempSelectedUnit.transform.parent.gameObject;
+                        tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
+                        tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
                         tempSelectedUnit = null;
                         break;
                         

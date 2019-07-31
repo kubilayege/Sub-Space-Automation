@@ -69,6 +69,7 @@ public class MovePiece : MonoBehaviour
             Vector3 newPos = placeCandidate.transform.position;
             placeCandidate.transform.parent.position = originOfSelectedUnit.position;
             selectedUnit.transform.parent.position = newPos;
+
         }
         else
         {
