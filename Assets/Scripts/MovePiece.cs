@@ -96,13 +96,16 @@ public class MovePiece : MonoBehaviour
             if (targetUnit.CompareTag("BoardBlock"))
             {
                 indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
-                tempSwapVar = board.playerBoardList[indexOf_SelectedUnit];
+                if(indexOf_TargetUnit != indexOf_SelectedUnit && indexOf_TargetUnit <= 32)
+                {
+                    Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                    tempSwapVar = board.playerBoardList[indexOf_SelectedUnit];
 
-                board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
-                board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
-                board.playerBoardList[indexOf_SelectedUnit] = null;
+                    board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
+                    board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
+                    board.playerBoardList[indexOf_SelectedUnit] = null;
 
+                }
                 //Destroy(tempSwapVar);
             }
             else if (targetUnit.CompareTag("BenchBlock"))
@@ -124,23 +127,30 @@ public class MovePiece : MonoBehaviour
             if (targetUnit.CompareTag("BoardBlock"))
             {
                 indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
-                tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
+                if(indexOf_TargetUnit <= 32)
+                {
+                    Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                    tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
 
-                board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
-                board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
-                board.playerBenchList[indexOf_SelectedUnit] = null;
+                    board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
+                    board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
+                    board.playerBenchList[indexOf_SelectedUnit] = null;
+                }
                 //Destroy(tempSwapVar);
             }
             else if (targetUnit.CompareTag("BenchBlock"))
             {
                 indexOf_TargetUnit = board.benchPosition.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
-                tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
+                if(indexOf_TargetUnit != indexOf_SelectedUnit)
+                {
+                    Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                    tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
 
-                board.playerBenchList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
-                board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
-                board.playerBenchList[indexOf_SelectedUnit] = null;
+                    board.playerBenchList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
+
+                    board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
+                    board.playerBenchList[indexOf_SelectedUnit] = null;
+                }
                 //Destroy(tempSwapVar);
             }
         }
@@ -161,11 +171,8 @@ public class MovePiece : MonoBehaviour
                 Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBoardList[indexOf_TargetUnit];
 
-                board.playerBoardList.Remove(board.playerBoardList[indexOf_TargetUnit]);
-                board.playerBoardList.Insert( indexOf_TargetUnit, board.playerBoardList[indexOf_SelectedUnit]);
-
-                board.playerBoardList.Remove(board.playerBoardList[indexOf_SelectedUnit]);
-                board.playerBoardList.Insert(indexOf_SelectedUnit, tempSwapVar);
+                board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
+                board.playerBoardList[indexOf_SelectedUnit] = tempSwapVar;
 
                 board.playerBoardList[indexOf_SelectedUnit].gameObject.transform.parent = board.chessboardPosition[indexOf_SelectedUnit].transform;
                 board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
@@ -177,11 +184,9 @@ public class MovePiece : MonoBehaviour
                 Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBenchList[indexOf_TargetUnit];
 
-                board.playerBenchList.Remove(board.playerBenchList[indexOf_TargetUnit]);
-                board.playerBenchList.Insert(indexOf_TargetUnit, board.playerBoardList[indexOf_SelectedUnit]);
+                board.playerBenchList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
+                board.playerBoardList[indexOf_SelectedUnit] = tempSwapVar;
 
-                board.playerBoardList.Remove(board.playerBoardList[indexOf_SelectedUnit]);
-                board.playerBoardList.Insert(indexOf_SelectedUnit, tempSwapVar);
 
                 board.playerBoardList[indexOf_SelectedUnit].transform.parent = board.chessboardPosition[indexOf_SelectedUnit].transform;
                 board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
@@ -197,11 +202,8 @@ public class MovePiece : MonoBehaviour
                 Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBoardList[indexOf_TargetUnit];
 
-                board.playerBoardList.Remove(board.playerBoardList[indexOf_TargetUnit]);
-                board.playerBoardList.Insert(indexOf_TargetUnit, board.playerBenchList[indexOf_SelectedUnit]);
-
-                board.playerBenchList.Remove(board.playerBenchList[indexOf_SelectedUnit]);
-                board.playerBenchList.Insert(indexOf_SelectedUnit, tempSwapVar);
+                board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
+                board.playerBenchList[indexOf_SelectedUnit] = tempSwapVar;
 
                 board.playerBenchList[indexOf_SelectedUnit].transform.parent = board.benchPosition[indexOf_SelectedUnit].transform;
                 board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
@@ -213,11 +215,8 @@ public class MovePiece : MonoBehaviour
                 Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBenchList[indexOf_TargetUnit];
 
-                board.playerBenchList.Remove(board.playerBenchList[indexOf_TargetUnit]);
-                board.playerBenchList.Insert(indexOf_TargetUnit, board.playerBenchList[indexOf_SelectedUnit]);
-
-                board.playerBenchList.Remove(board.playerBenchList[indexOf_SelectedUnit]);
-                board.playerBenchList.Insert(indexOf_SelectedUnit, tempSwapVar);
+                board.playerBenchList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
+                board.playerBenchList[indexOf_SelectedUnit] = tempSwapVar;
 
                 board.playerBenchList[indexOf_SelectedUnit].transform.parent = board.benchPosition[indexOf_SelectedUnit].transform;
                 board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
