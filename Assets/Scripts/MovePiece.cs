@@ -64,20 +64,169 @@ public class MovePiece : MonoBehaviour
     public void MoveUnit(GameObject selectedUnit) 
     {
         GameObject placeCandidate = SendRayToMousePosition();
-        if (placeCandidate != null && placeCandidate.CompareTag("Unit"))
+        
+        if ((placeCandidate != null && (board.playerBenchList.Contains(placeCandidate.transform.parent.gameObject) || board.playerBoardList.Contains(placeCandidate.transform.parent.gameObject))))
         {
             Vector3 newPos = placeCandidate.transform.position;
             placeCandidate.transform.parent.position = originOfSelectedUnit.position;
             selectedUnit.transform.parent.position = newPos;
 
+            SawpUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate.transform.parent.gameObject);
         }
-        else
+        else if(placeCandidate != null)
         {
             selectedUnit.transform.parent.position = placableBoardPosition(placeCandidate);
+
+            RelocateUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate);
         }
 
         Destroy(candidateObj);
     }
+    
+
+    public void RelocateUnitsPositionOnLists(GameObject selectedUnit, GameObject targetUnit)
+    {
+        GameObject tempSwapVar;
+        int indexOf_SelectedUnit = 0;
+        int indexOf_TargetUnit = 0;
+
+        if (selectedUnit.transform.parent.gameObject.CompareTag("BoardBlock"))
+        {
+            indexOf_SelectedUnit = board.playerBoardList.IndexOf(selectedUnit);
+            if (targetUnit.CompareTag("BoardBlock"))
+            {
+                indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBoardList[indexOf_SelectedUnit];
+
+                board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
+                board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
+                board.playerBoardList[indexOf_SelectedUnit] = null;
+
+                //Destroy(tempSwapVar);
+            }
+            else if (targetUnit.CompareTag("BenchBlock"))
+            {
+                indexOf_TargetUnit = board.benchPosition.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBoardList[indexOf_SelectedUnit];
+
+                board.playerBenchList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
+                board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
+          
+                board.playerBoardList[indexOf_SelectedUnit] = null;
+                //Destroy(tempSwapVar);
+            }
+        }
+        else if (selectedUnit.transform.parent.gameObject.CompareTag("BenchBlock"))
+        {
+            indexOf_SelectedUnit = board.playerBenchList.IndexOf(selectedUnit);
+            if (targetUnit.CompareTag("BoardBlock"))
+            {
+                indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
+
+                board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
+                board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
+                board.playerBenchList[indexOf_SelectedUnit] = null;
+                //Destroy(tempSwapVar);
+            }
+            else if (targetUnit.CompareTag("BenchBlock"))
+            {
+                indexOf_TargetUnit = board.benchPosition.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
+
+                board.playerBenchList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
+                board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
+                board.playerBenchList[indexOf_SelectedUnit] = null;
+                //Destroy(tempSwapVar);
+            }
+        }
+    }
+
+    public void SawpUnitsPositionOnLists(GameObject selectedUnit, GameObject targetUnit)
+    {
+        GameObject tempSwapVar;
+        int indexOf_SelectedUnit = 0;
+        int indexOf_TargetUnit = 0;
+
+        if (selectedUnit.transform.parent.gameObject.CompareTag("BoardBlock"))
+        {
+            indexOf_SelectedUnit = board.playerBoardList.IndexOf(selectedUnit);
+            if (targetUnit.transform.parent.CompareTag("BoardBlock"))
+            {
+                indexOf_TargetUnit = board.playerBoardList.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBoardList[indexOf_TargetUnit];
+
+                board.playerBoardList.Remove(board.playerBoardList[indexOf_TargetUnit]);
+                board.playerBoardList.Insert( indexOf_TargetUnit, board.playerBoardList[indexOf_SelectedUnit]);
+
+                board.playerBoardList.Remove(board.playerBoardList[indexOf_SelectedUnit]);
+                board.playerBoardList.Insert(indexOf_SelectedUnit, tempSwapVar);
+
+                board.playerBoardList[indexOf_SelectedUnit].gameObject.transform.parent = board.chessboardPosition[indexOf_SelectedUnit].transform;
+                board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
+                //Destroy(tempSwapVar);
+            }
+            else if (targetUnit.transform.parent.CompareTag("BenchBlock"))
+            {
+                indexOf_TargetUnit = board.playerBenchList.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBenchList[indexOf_TargetUnit];
+
+                board.playerBenchList.Remove(board.playerBenchList[indexOf_TargetUnit]);
+                board.playerBenchList.Insert(indexOf_TargetUnit, board.playerBoardList[indexOf_SelectedUnit]);
+
+                board.playerBoardList.Remove(board.playerBoardList[indexOf_SelectedUnit]);
+                board.playerBoardList.Insert(indexOf_SelectedUnit, tempSwapVar);
+
+                board.playerBoardList[indexOf_SelectedUnit].transform.parent = board.chessboardPosition[indexOf_SelectedUnit].transform;
+                board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
+                //Destroy(tempSwapVar);
+            }
+        }
+        else if (selectedUnit.transform.parent.gameObject.CompareTag("BenchBlock"))
+        {
+            indexOf_SelectedUnit = board.playerBenchList.IndexOf(selectedUnit);
+            if (targetUnit.transform.parent.CompareTag("BoardBlock"))
+            {
+                indexOf_TargetUnit = board.playerBoardList.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBoardList[indexOf_TargetUnit];
+
+                board.playerBoardList.Remove(board.playerBoardList[indexOf_TargetUnit]);
+                board.playerBoardList.Insert(indexOf_TargetUnit, board.playerBenchList[indexOf_SelectedUnit]);
+
+                board.playerBenchList.Remove(board.playerBenchList[indexOf_SelectedUnit]);
+                board.playerBenchList.Insert(indexOf_SelectedUnit, tempSwapVar);
+
+                board.playerBenchList[indexOf_SelectedUnit].transform.parent = board.benchPosition[indexOf_SelectedUnit].transform;
+                board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
+                //Destroy(tempSwapVar);
+            }
+            else if (targetUnit.transform.parent.CompareTag("BenchBlock"))
+            {
+                indexOf_TargetUnit = board.playerBenchList.IndexOf(targetUnit);
+                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                tempSwapVar = board.playerBenchList[indexOf_TargetUnit];
+
+                board.playerBenchList.Remove(board.playerBenchList[indexOf_TargetUnit]);
+                board.playerBenchList.Insert(indexOf_TargetUnit, board.playerBenchList[indexOf_SelectedUnit]);
+
+                board.playerBenchList.Remove(board.playerBenchList[indexOf_SelectedUnit]);
+                board.playerBenchList.Insert(indexOf_SelectedUnit, tempSwapVar);
+
+                board.playerBenchList[indexOf_SelectedUnit].transform.parent = board.benchPosition[indexOf_SelectedUnit].transform;
+                board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
+                //Destroy(tempSwapVar);
+            }
+        }
+    }
+
+
     public void candidatePlaceHolder()
     {
         Vector3 tempPos = placableBoardPosition(SendRayToMousePosition());

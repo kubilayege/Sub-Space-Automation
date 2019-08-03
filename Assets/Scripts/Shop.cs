@@ -95,7 +95,7 @@ public class Shop : MonoBehaviour
         {
 
             GameObject tempSelectedUnit = SendRayToMousePosition();
-            if (tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
+            if (tempSelectedUnit != null && tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
             {
                 for (int i = 0; i < board.benchSize; i++)
                 {
