@@ -8,6 +8,7 @@ public class Pieces : MonoBehaviour
     public const int pieceID = 0;  
     public Sprite ICON;
     public const int maxHealth = 500;
+    public int pieceCost = 1;
     public int health = maxHealth;
     public int mana;
     public int armor;

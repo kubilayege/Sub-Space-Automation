@@ -23,10 +23,7 @@ public class Shop : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            BuyedUnitMove();
-        }
+        
     }
 
     void InitializeVariables()
@@ -56,6 +53,7 @@ public class Shop : MonoBehaviour
                 // Debug.Log(piecesOnPool.Count);
                 tempShopPieces.Add(piecePool[randomIndex]);
                 tempShopPieces[tempShopPieces.Count - 1].transform.position = pieceSlotsList[i].transform.position;
+                tempShopPieces[tempShopPieces.Count - 1].transform.rotation = pieceSlotsList[i].transform.rotation;
                 tempShopPieces[tempShopPieces.Count - 1].transform.parent = pieceSlotsList[i].transform;
                 piecePool.RemoveAt(randomIndex);
             }
@@ -89,29 +87,40 @@ public class Shop : MonoBehaviour
             return null;
         }
     }
-    void BuyedUnitMove()
+    public void BuyUnit(Board board, PlayerPurse purse)
     {
-        if(transform.gameObject.activeSelf)
+        if (!transform.gameObject.activeSelf)
         {
+            return;
+        }
 
-            GameObject tempSelectedUnit = SendRayToMousePosition();
-            if (tempSelectedUnit != null && tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
+        GameObject tempSelectedUnit = SendRayToMousePosition();
+
+        if (tempSelectedUnit != null && tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
+        {
+            if(tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceCost > purse.gold)
             {
-                for (int i = 0; i < board.benchSize; i++)
+                return;  //not enough gold
+            }
+
+            purse.ModifyGold(-(tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceCost));
+
+            for (int i = 0; i < board.benchSize; i++)
+            {
+                if (board.playerBenchList[i] == null)
                 {
-                    if (board.playerBenchList[i] == null)
-                    {
-                        Vector3 newPos = new Vector3(board.benchPosition[i].transform.position.x, (tempSelectedUnit.transform.localScale.y / 2) + 3, board.benchPosition[i].transform.position.z);
-                        tempSelectedUnit.transform.parent.position = newPos;
-                        board.playerBenchList[i] = tempSelectedUnit.transform.parent.gameObject;
-                        tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
-                        tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
-                        tempSelectedUnit = null;
-                        break;
+                    Vector3 newPos = new Vector3(board.benchPosition[i].transform.position.x, (tempSelectedUnit.transform.localScale.y / 2) + 3, board.benchPosition[i].transform.position.z);
+                    tempSelectedUnit.transform.parent.position = newPos;
+                    tempSelectedUnit.transform.parent.rotation = Quaternion.identity;
+                    board.playerBenchList[i] = tempSelectedUnit.transform.parent.gameObject;
+                    tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
+                    tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
+                    tempSelectedUnit = null;
+                    break;
                         
-                    }
                 }
             }
         }
+        
     }
 }

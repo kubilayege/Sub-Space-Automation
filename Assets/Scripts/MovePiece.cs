@@ -54,7 +54,7 @@ public class MovePiece : MonoBehaviour
     public void SelectUnit() //birim seçilir ve uygun alanı belli eden bir nesne spawnlanır.
     {
         GameObject unitCandidate = SendRayToMousePosition();
-        if (unitCandidate != null && unitCandidate.CompareTag("Unit"))
+        if (unitCandidate != null && (board.playerBenchList.Contains(unitCandidate.transform.parent.gameObject) || board.playerBoardList.Contains(unitCandidate.transform.parent.gameObject)))
         {
             selectedUnit = unitCandidate.gameObject;
             originOfSelectedUnit = selectedUnit.transform;

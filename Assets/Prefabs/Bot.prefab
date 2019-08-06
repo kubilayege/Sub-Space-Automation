@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2431562658555628010}
-  - component: {fileID: 3924911084107775224}
-  - component: {fileID: 6519507045636746823}
+  - component: {fileID: 8483923192157234140}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Bot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 131.68001, z: 0}
---- !u!114 &3924911084107775224
+--- !u!114 &8483923192157234140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,19 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2431562658555628008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f6e8089f8c9f342b13bf37e8f84dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6519507045636746823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2431562658555628008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7727314d582cc8c40a8ba203f12558df, type: 3}
+  m_Script: {fileID: 11500000, guid: 666a7f7cb48941844b6fe0eda5c2a2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &165080628349498269
