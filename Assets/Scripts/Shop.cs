@@ -16,7 +16,7 @@ public class Shop : MonoBehaviour
     void Start()
     {
         InitializeVariables();
-        //DrawPieces();
+        DrawPieces();
         match = transform.parent.parent.parent.GetComponent<Match>();
         board = match.boards[0].GetComponent<Board>();
     }

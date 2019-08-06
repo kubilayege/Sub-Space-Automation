@@ -33,11 +33,11 @@ public class EventTest : MonoBehaviour
     void PreaperingRound(float time)
     {
         GenerateIncome();
+        shop.ClearSlot();
+        shop.DrawPieces();
         StartCoroutine(DecreaseTime(time));
         //unlockMoveBoard();
         ++round;
-        shop.ClearSlot();
-        shop.DrawPieces();
         
     }
 
