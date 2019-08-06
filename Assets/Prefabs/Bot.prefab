@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2431562658555628010}
   - component: {fileID: 8483923192157234140}
+  - component: {fileID: 1822414151967489870}
   m_Layer: 0
   m_Name: Bot
   m_TagString: Untagged
@@ -44,6 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666a7f7cb48941844b6fe0eda5c2a2cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1822414151967489870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2431562658555628008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7727314d582cc8c40a8ba203f12558df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gold: 0
+  victoryCount: 0
+  loseCount: 0
 --- !u!1001 &165080628349498269
 PrefabInstance:
   m_ObjectHideFlags: 0
