@@ -8,19 +8,29 @@ public class EventTest : MonoBehaviour
     [SerializeField] float preaperingTime = 5f;
     [SerializeField] float fightTime = 10f;
     [SerializeField] float gameTime;
-    [SerializeField] int round = 0;
+    [SerializeField] public int round = 0;
     [SerializeField] int preaperOrFight = 1; //1 = preaper, -1 = fight;
-    Shop shop;
+    [SerializeField] List<Shop> shops;
     [SerializeField] List<PlayerPurse> purses;
     void Start()
     {
         GetPurses();
-        shop = transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Shop>();
+        GetShops();
+          //todo shops<>
         PreaperingRound(preaperingTime);
         
     }
 
-    private void GetPurses()
+    void GetShops()
+    {
+        for (int i = 1; i < 9; i++)
+        {
+            shops.Add(transform.GetChild(i).GetChild(3).GetChild(1).GetChild(0).GetComponent<Shop>());
+        }
+       
+    }
+
+    void GetPurses()
     {
         for (int i=1; i < 9; i++)
         {
@@ -33,12 +43,20 @@ public class EventTest : MonoBehaviour
     void PreaperingRound(float time)
     {
         GenerateIncome();
-        shop.ClearSlot();
-        shop.DrawPieces();
+        ManageShops();
         StartCoroutine(DecreaseTime(time));
         //unlockMoveBoard();
         ++round;
         
+    }
+
+    private void ManageShops()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            shops[i].ClearSlot();
+            shops[i].DrawPieces();
+        }
     }
 
     private void GenerateIncome()

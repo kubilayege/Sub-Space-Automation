@@ -7,7 +7,6 @@ public class Shop : MonoBehaviour
     public List<GameObject> gamePieces; // Oyundaki her piece burda tutulacak
     public List<Transform> pieceSlotsList; //Shop slot pozisyonları listesi
     public List<GameObject> tempShopPieces;
-    public List<GameObject> piecePool;
     float maxRayDistance = 5000;
     int poolSize = 100;
     public Match match;
@@ -17,8 +16,6 @@ public class Shop : MonoBehaviour
     {
         InitializeVariables();
         DrawPieces();
-        match = transform.parent.parent.parent.GetComponent<Match>();
-        board = match.boards[0].GetComponent<Board>();
     }
     
     void Update()
@@ -34,11 +31,8 @@ public class Shop : MonoBehaviour
             pieceSlotsList.Add(pieceSlots.transform.GetChild(i));
         }
 
-        for (int i = 0; i < poolSize; i++)
-        {
-            piecePool.Add(Instantiate(gamePieces[i%2], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, this.transform));
-        }
-
+        match = transform.parent.parent.parent.parent.GetComponent<Match>();
+        board = match.boards[0].GetComponent<Board>();
     }
 
     public void DrawPieces()
@@ -48,14 +42,14 @@ public class Shop : MonoBehaviour
         {
             if(pieceSlotsList.Count != 0)
             {
-                int maxIndex = piecePool.Count - 1;
+                int maxIndex = match.piecePool.Count - 1;
                 int randomIndex = Random.Range(0, maxIndex);
                 // Debug.Log(piecesOnPool.Count);
-                tempShopPieces.Add(piecePool[randomIndex]);
+                tempShopPieces.Add(match.piecePool[randomIndex]);
                 tempShopPieces[tempShopPieces.Count - 1].transform.position = pieceSlotsList[i].transform.position;
                 tempShopPieces[tempShopPieces.Count - 1].transform.rotation = pieceSlotsList[i].transform.rotation;
                 tempShopPieces[tempShopPieces.Count - 1].transform.parent = pieceSlotsList[i].transform;
-                piecePool.RemoveAt(randomIndex);
+                match.piecePool.RemoveAt(randomIndex);
             }
         }
     }
@@ -66,9 +60,10 @@ public class Shop : MonoBehaviour
             if(transform.GetChild(0).GetChild(i).childCount == 2)
             {
                 forAddUnitToPool = transform.GetChild(0).GetChild(i).GetChild(1).gameObject;
-                piecePool.Add(forAddUnitToPool);
+                match.piecePool.Add(forAddUnitToPool);
                 tempShopPieces.Remove(forAddUnitToPool); //  remove from shop slot
-                forAddUnitToPool.transform.position = new Vector3(6000 - i * 128, 0, 1600);
+                forAddUnitToPool.transform.position = new Vector3(6000 - match.GetComponent<EventTest>().round%match.piecePool.Capacity * 128, 0, this.transform.position.z + 900);
+                forAddUnitToPool.transform.rotation = Quaternion.identity;
                 forAddUnitToPool.transform.parent = this.transform;
             }
         }
