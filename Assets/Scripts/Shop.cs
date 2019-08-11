@@ -118,4 +118,15 @@ public class Shop : MonoBehaviour
         }
         
     }
+    public void RerollShopWithButton()
+    {
+        if(transform.parent.parent.GetComponent<PlayerPurse>().gold >= 2)
+        {
+            ClearSlot();
+            DrawPieces();
+            transform.parent.parent.GetComponent<PlayerPurse>().ModifyGold(-2);
+
+        }
+
+    }
 }

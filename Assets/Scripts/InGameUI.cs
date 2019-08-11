@@ -18,4 +18,11 @@ public class InGameUI : MonoBehaviour
         shopPanel.SetActive(!shopPanel.activeInHierarchy);
         Debug.Log(shopPanel.name + "" );
     }
+    public void Reroll()
+    {
+        shopPanel = transform.parent.GetChild(1).GetChild(3).GetChild(1).GetChild(0).gameObject;
+        shopPanel.SetActive(true);
+        shopPanel.GetComponent<Shop>().RerollShopWithButton();
+
+    }
 }
