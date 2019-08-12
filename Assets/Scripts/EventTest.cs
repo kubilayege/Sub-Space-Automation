@@ -11,14 +11,28 @@ public class EventTest : MonoBehaviour
     [SerializeField] public int round = 0;
     [SerializeField] int preaperOrFight = 1; //1 = preaper, -1 = fight;
     [SerializeField] List<Shop> shops;
+    [SerializeField] List<BotAI> bots;
     [SerializeField] List<PlayerPurse> purses;
+    [SerializeField] Match match;
     void Start()
     {
+        match = transform.GetComponent<Match>();
         GetPurses();
         GetShops();
+        GetBots();
           //todo shops<>
         PreaperingRound(preaperingTime);
         
+    }
+
+    void GetBots()
+    {
+        for (int i = 2; i < 9; i++)
+        {
+            bots.Add(transform.GetChild(i).GetChild(3).GetComponent<BotAI>());
+        }
+
+        Debug.Log(bots.Count);
     }
 
     void GetShops()
@@ -43,11 +57,20 @@ public class EventTest : MonoBehaviour
     void PreaperingRound(float time)
     {
         GenerateIncome();
+        GenerateExperience();
         ManageShops();
         StartCoroutine(DecreaseTime(time));
         //unlockMoveBoard();
         ++round;
         
+    }
+
+    private void GenerateExperience()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            purses[i].GetComponent<Player>().IncreaseExp();
+        }
     }
 
     private void ManageShops()
@@ -56,6 +79,10 @@ public class EventTest : MonoBehaviour
         {
             shops[i].ClearSlot();
             shops[i].DrawPieces();
+        }
+        for (int i = 0; i < bots.Count; i++)
+        {
+            bots[i].BotDecideUnitToBuy();
         }
     }
 

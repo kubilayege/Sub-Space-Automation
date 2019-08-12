@@ -6,8 +6,6 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     Shop inGameShop;
-    
-
 
     // Start is called before the first frame update
     void Start()

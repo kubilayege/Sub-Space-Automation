@@ -14,6 +14,7 @@ public class Board : MonoBehaviour
 
     public int chessboardSize = 64;
     public int benchSize = 8;
+    public int playerUnitCount = 0;
     //public GameObject[] playerBenchList;
     //public GameObject[] playerBoardList;
     //public GameObject[] enemyBenchList;

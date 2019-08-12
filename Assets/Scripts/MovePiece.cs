@@ -75,16 +75,17 @@ public class MovePiece : MonoBehaviour
         }
         else if(placeCandidate != null)
         {
-            selectedUnit.transform.parent.position = placableBoardPosition(placeCandidate);
-
-            RelocateUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate);
+            if(RelocateUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate))
+            {
+                selectedUnit.transform.parent.position = placableBoardPosition(placeCandidate);
+            }
         }
 
         Destroy(candidateObj);
     }
     
 
-    public void RelocateUnitsPositionOnLists(GameObject selectedUnit, GameObject targetUnit)
+    public bool RelocateUnitsPositionOnLists(GameObject selectedUnit, GameObject targetUnit)
     {
         GameObject tempSwapVar;
         int indexOf_SelectedUnit = 0;
@@ -104,7 +105,7 @@ public class MovePiece : MonoBehaviour
                     board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
                     board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
                     board.playerBoardList[indexOf_SelectedUnit] = null;
-
+                    return true;
                 }
                 //Destroy(tempSwapVar);
             }
@@ -119,12 +120,15 @@ public class MovePiece : MonoBehaviour
           
                 board.playerBoardList[indexOf_SelectedUnit] = null;
                 //Destroy(tempSwapVar);
+
+                board.playerUnitCount -= 1;
+                return true;
             }
         }
         else if (selectedUnit.transform.parent.gameObject.CompareTag("BenchBlock"))
         {
             indexOf_SelectedUnit = board.playerBenchList.IndexOf(selectedUnit);
-            if (targetUnit.CompareTag("BoardBlock"))
+            if (board.playerUnitCount < this.GetComponent<Player>().level && targetUnit.CompareTag("BoardBlock"))
             {
                 indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
                 if(indexOf_TargetUnit <= 32)
@@ -135,6 +139,9 @@ public class MovePiece : MonoBehaviour
                     board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
                     board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
                     board.playerBenchList[indexOf_SelectedUnit] = null;
+
+                    board.playerUnitCount += 1;
+                    return true;
                 }
                 //Destroy(tempSwapVar);
             }
@@ -150,10 +157,12 @@ public class MovePiece : MonoBehaviour
 
                     board.playerBenchList[indexOf_TargetUnit].transform.parent = board.benchPosition[indexOf_TargetUnit].transform;
                     board.playerBenchList[indexOf_SelectedUnit] = null;
+                    return true;
                 }
                 //Destroy(tempSwapVar);
             }
         }
+        return false;
     }
 
     public void SawpUnitsPositionOnLists(GameObject selectedUnit, GameObject targetUnit)

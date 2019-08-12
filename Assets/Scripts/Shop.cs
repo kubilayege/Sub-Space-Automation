@@ -45,6 +45,7 @@ public class Shop : MonoBehaviour
                 int maxIndex = match.piecePool.Count - 1;
                 int randomIndex = Random.Range(0, maxIndex);
                 // Debug.Log(piecesOnPool.Count);
+                if (match.piecePool[randomIndex] == null) return;
                 tempShopPieces.Add(match.piecePool[randomIndex]);
                 tempShopPieces[tempShopPieces.Count - 1].transform.position = pieceSlotsList[i].transform.position;
                 tempShopPieces[tempShopPieces.Count - 1].transform.rotation = pieceSlotsList[i].transform.rotation;
@@ -93,7 +94,7 @@ public class Shop : MonoBehaviour
 
         if (tempSelectedUnit != null && tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
         {
-            if(tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceCost > purse.gold)
+            if (tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceCost > purse.gold)
             {
                 return;  //not enough gold
             }
@@ -112,11 +113,41 @@ public class Shop : MonoBehaviour
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
                     tempSelectedUnit = null;
                     break;
-                        
+
                 }
             }
         }
-        
+
+    }
+    public void BotBuyUnit(Board board, PlayerPurse purse, GameObject tempSelectedUnit)
+    {
+
+        if (tempSelectedUnit != null && tempSelectedUnit.transform.parent.parent.CompareTag("Slot") && tempSelectedUnit.CompareTag("Unit"))
+        {
+            if (tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceCost > purse.gold)
+            {
+                return;  //not enough gold
+            }
+
+            purse.ModifyGold(-(tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceCost));
+
+            for (int i = 0; i < board.benchSize; i++)
+            {
+                if (board.playerBenchList[i] == null)
+                {
+                    Vector3 newPos = new Vector3(board.benchPosition[i].transform.position.x, (tempSelectedUnit.transform.localScale.y / 2) + 3, board.benchPosition[i].transform.position.z);
+                    tempSelectedUnit.transform.parent.position = newPos;
+                    tempSelectedUnit.transform.parent.rotation = Quaternion.identity;
+                    board.playerBenchList[i] = tempSelectedUnit.transform.parent.gameObject;
+                    tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
+                    tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
+                    tempSelectedUnit = null;
+                    break;
+
+                }
+            }
+        }
+
     }
     public void RerollShopWithButton()
     {

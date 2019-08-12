@@ -28,9 +28,12 @@ public class Match : MonoBehaviour
 
     public void InitializePiecePool()
     {
-        for (int i = 0; i < 100; i++)
+        GameObject piecePoolObj = new GameObject();
+        piecePoolObj.name = "PiecePoolObj";
+        piecePoolObj.transform.parent = this.transform;
+        for (int i = 0; i < 500; i++)
         {
-            piecePool.Add(Instantiate(gamePieces[i % 2], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, this.transform));
+            piecePool.Add(Instantiate(gamePieces[i % 2], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, transform.GetChild(transform.childCount-1)));
         }
 
     }
