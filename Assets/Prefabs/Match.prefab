@@ -655,6 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1099531662325695319}
   - component: {fileID: 1099531662325695316}
+  - component: {fileID: -3042946110182903236}
   - component: {fileID: 5777368675840541028}
   m_Layer: 0
   m_Name: Match
@@ -708,6 +709,18 @@ MonoBehaviour:
   gamePieces:
   - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
   - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
+--- !u!114 &-3042946110182903236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099531662325695317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901584e4e2124dc4c9541cc6427c359f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5777368675840541028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,7 +739,9 @@ MonoBehaviour:
   round: 0
   preaperOrFight: 1
   shops: []
+  bots: []
   purses: []
+  match: {fileID: 0}
 --- !u!1 &1193064077075273775
 GameObject:
   m_ObjectHideFlags: 0

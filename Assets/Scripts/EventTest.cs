@@ -14,9 +14,11 @@ public class EventTest : MonoBehaviour
     [SerializeField] List<BotAI> bots;
     [SerializeField] List<PlayerPurse> purses;
     [SerializeField] Match match;
+    [SerializeField] BattleSimulationController battle;
     void Start()
     {
         match = transform.GetComponent<Match>();
+        battle = transform.GetComponent<BattleSimulationController>();
         GetPurses();
         GetShops();
         GetBots();
@@ -32,7 +34,7 @@ public class EventTest : MonoBehaviour
             bots.Add(transform.GetChild(i).GetChild(3).GetComponent<BotAI>());
         }
 
-        Debug.Log(bots.Count);
+        //Debug.Log(bots.Count);
     }
 
     void GetShops()
@@ -56,6 +58,7 @@ public class EventTest : MonoBehaviour
 
     void PreaperingRound(float time)
     {
+        battle.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
         GenerateIncome();
         GenerateExperience();
         ManageShops();
@@ -64,7 +67,14 @@ public class EventTest : MonoBehaviour
         ++round;
         
     }
+    void FightRound(float time)
+    {
+        battle.SetOpponent(); //karşına rakip atar;
+        StartCoroutine(DecreaseTime(time));
 
+        //lockMoveBoard();
+
+    }
     private void GenerateExperience()
     {
         for (int i = 0; i < 8; i++)
@@ -93,14 +103,7 @@ public class EventTest : MonoBehaviour
             purses[i].CalculateIncome(round, true); // bool parametresi matchupların sonucuna göre gönderilecek.
         }
     }
-
-    void FightRound(float time)
-    {
-        StartCoroutine(DecreaseTime(time));
-        
-        //lockMoveBoard();
-
-    }
+   
     IEnumerator DecreaseTime(float time)
     {
         gameTime = time;
