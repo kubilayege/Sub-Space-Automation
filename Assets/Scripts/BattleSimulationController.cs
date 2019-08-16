@@ -14,11 +14,7 @@ public class BattleSimulationController : MonoBehaviour
             firstBoard[i] = transform.GetChild(i + 1).gameObject.GetComponent<Board>().gameObject;
         }
     }
-    private void FixedUpdate()
-    {
-        if(firstBoard[0].transform.GetChild(0).GetChild(0).GetChild(0).gameObject!=null)
-        Debug.Log(firstBoard[0].transform.GetChild(0).GetChild(0).GetChild(0).gameObject);
-    }
+  
     public void SetOpponent()
     {
         Debug.Log("i called from eventManager");
@@ -36,24 +32,38 @@ public class BattleSimulationController : MonoBehaviour
     {
         if (secondBoard.Count > 0)
         {
-            for (int i = 7; i >= 0; i--) //listeden eleman atılınca listede ki indexler kaydığı için bunu yaptım.
+            for (int i = 7; i >= 0; i--)
             {
                 secondBoard.RemoveAt(i);
             }
         }
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 32; j++)
+            {
+                if(firstBoard[i].transform.GetChild(0).GetChild(63 - j).childCount > 0)
+                Destroy(firstBoard[i].transform.GetChild(0).GetChild(63 - j).GetChild(0).gameObject);
+            }
+            
+        }
     }
 
-    //burası rakipleri bizim boarda getirecek kısım çözemedim bir türlü.
     void SetUnitForFight()
     {
+        GameObject boardPlace;
+        GameObject unit;
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 32; j++)
             {
-                //if (secondBoard[i].transform.GetChild(0).GetChild(j).GetChild(0).gameObject != null)
-                //{
-                //    firstBoard[i].transform.GetChild(0).GetChild(63 - j).GetChild(0).gameObject = secondBoard[i].transform.GetChild(0).GetChild(j).GetChild(0).gameObject;
-                //}
+                boardPlace = firstBoard[i].transform.GetChild(0).GetChild(63 - j).gameObject;
+                
+                if (secondBoard[i].transform.GetChild(0).GetChild(j).childCount > 0)
+                {
+                    unit = secondBoard[i].transform.GetChild(0).GetChild(j).GetChild(0).gameObject;
+                    Vector3 newPos = new Vector3(boardPlace.transform.position.x, unit.transform.position.y , boardPlace.transform.position.z);
+                    GameObject newObject =  Instantiate(unit, newPos, Quaternion.identity, firstBoard[i].transform.GetChild(0).GetChild(63 - j).transform ) as GameObject;
+                }
             }
         }
         
