@@ -6,6 +6,7 @@ public class Test : MonoBehaviour
 {
     string[] classorrace = new string[3];
     public GameObject testPrefab;
+    //classları ve raceleri otomatik almak için hazırlanmış script
     void Start()
     {
         FindClassAndRace();

@@ -14,17 +14,12 @@ public class Shop : MonoBehaviour
     public Match match;
     public Board board;
     GameObject forAddUnitToPool;
+
     void Start()
     {
         InitializeVariables();
         DrawPieces();
     }
-    
-    void Update()
-    {
-        
-    }
-
     void InitializeVariables()
     {
         GameObject pieceSlots = transform.GetChild(0).gameObject;
@@ -35,7 +30,6 @@ public class Shop : MonoBehaviour
         match = transform.parent.parent.parent.parent.GetComponent<Match>();
         board = match.boards[0].GetComponent<Board>();
     }
-
     public void DrawPieces()
     {
         //GameObject pieceSlots = transform.GetChild(0).gameObject;
@@ -55,7 +49,7 @@ public class Shop : MonoBehaviour
             }
         }
     }
-   public void ClearSlot()
+    public void ClearSlot()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -70,7 +64,6 @@ public class Shop : MonoBehaviour
             }
         }
     }
-
     public GameObject SendRayToMousePosition()//mouse pozisyonundaki objeyi geri döndürür.
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -113,20 +106,8 @@ public class Shop : MonoBehaviour
                     tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
 
-                    ///*eğer satın alınan nesne ile nesnenin piece scriptindeki adı aynı değilse örneğin p_examplemodel_1 != warwick*
-                    // bu durumda bu karakterden daha önce alınmamış demektir. bu durumda o karakterin isminde bir yuva açıyoruz.
-                    // */
-                    //if (tempSelectedUnit.transform.parent.name != tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceName)
-                    //{
-                    //    GameObject emptyGameObject = new GameObject();
-                    //    emptyGameObject.name = tempSelectedUnit.transform.parent.GetComponent<Pieces>().pieceName;
-                    //    emptyGameObject.transform.parent = board.benchPosition[i].transform;
-                    //    tempSelectedUnit.transform.parent.parent = emptyGameObject.transform;
-                    //}
-                    //else
-                    //{
-                    //}
                     UpgradeUnit(tempSelectedUnit);
+
                     tempSelectedUnit = null;
                     break;
 
@@ -140,54 +121,53 @@ public class Shop : MonoBehaviour
     }
     public void UpgradeUnit(GameObject unit)
     {
-        
-        for (int i = 0; i < 32; i++)
+        // chessboard kontrol ediliyor
+        for (int i = 0; i < 32; i++) 
         {
-            Debug.Log("Aşama 1");
             if (board.chessboardPosition[i].transform.childCount > 0)
             {
-                Debug.Log("Aşama 2");
                 if (board.chessboardPosition[i].transform.GetChild(0).name == unit.transform.parent.name)
                 {
-                    Debug.Log("Aşama 3");
                     if (starCount < 3)
                     {
-                        Debug.Log("Aşama 4");
-                        tempUpgradeUnit.Add(unit.transform.parent.gameObject);
+                        //tempUpgradeUnit.Add(unit.transform.parent.gameObject);
+                        tempUpgradeUnit.Add(board.chessboardPosition[i].transform.GetChild(0).gameObject);
                         starCount++;
                     }
                 }
             }
             
         }
-        
-        for (int i = 0; i < 8; i++)
+
+        // bench kontrol ediliyor
+        for (int i = 0; i < 8; i++) 
         {
-            Debug.Log("Aşama 5");
             if (board.benchPosition[i].transform.childCount > 0)
             {
-                Debug.Log("Aşama 6 ");
                 if (board.benchPosition[i].transform.GetChild(0).name == unit.transform.parent.name)
                 {
-                    Debug.Log("Aşama 7");
                     if (starCount < 3)
                     {
-                        Debug.Log("Aşama 8");
-                        tempUpgradeUnit.Add(unit.transform.parent.gameObject);
+                        //tempUpgradeUnit.Add(unit.transform.parent.gameObject);
+                        tempUpgradeUnit.Add(board.benchPosition[i].transform.GetChild(0).gameObject);
                         starCount++;
                     }
                 }
             }
         }
 
+        //yükseltme işlemi
         if(starCount > 2)
         {
-            Debug.Log("Aşama 9");
-            GameObject a = Instantiate(unit, unit.transform) as GameObject;
-            a.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
+            GameObject a = Instantiate(tempUpgradeUnit[0].transform.gameObject ,newPos , Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+
+            for (int i = tempUpgradeUnit.Count - 1; i >= 0; i--)
+            {
+                Destroy(tempUpgradeUnit[i].gameObject);
+            }
             for (int i = starCount - 1; i >= 0; i--)
             {
-                Debug.Log("Aşama 10");
                 tempUpgradeUnit.RemoveAt(i);
             }
             starCount = 0;
@@ -195,11 +175,8 @@ public class Shop : MonoBehaviour
         }
         else
         {
-            Debug.Log("Aşama 11");
-            
             for (int i = starCount-1; i >= 0; i--)
             {
-                Debug.Log("Aşama 12");
                 tempUpgradeUnit.RemoveAt(i);
             }
             starCount = 0;
