@@ -79,6 +79,7 @@ MonoBehaviour:
   benchPosition: []
   chessboardSize: 64
   benchSize: 8
+  playerUnitCount: 0
   playerBenchList:
   - {fileID: 0}
   - {fileID: 0}
@@ -230,6 +231,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9165382369620561309, guid: aee190c53755a3d48b061434357650f9,
+        type: 3}
+      propertyPath: unitlist.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165382369620561309, guid: aee190c53755a3d48b061434357650f9,
+        type: 3}
+      propertyPath: unitlist.Array.data[0]
+      value: 
+      objectReference: {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0,
+        type: 3}
+    - target: {fileID: 9165382369620561309, guid: aee190c53755a3d48b061434357650f9,
+        type: 3}
+      propertyPath: unitlist.Array.data[1]
+      value: 
+      objectReference: {fileID: 3151280988130582610, guid: af8031f35b6efbc45b9de9ee8d84feaa,
+        type: 3}
+    - target: {fileID: 9165382369620561309, guid: aee190c53755a3d48b061434357650f9,
+        type: 3}
+      propertyPath: unitlist.Array.data[2]
+      value: 
+      objectReference: {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aee190c53755a3d48b061434357650f9, type: 3}
 --- !u!1 &2709411944233076256 stripped

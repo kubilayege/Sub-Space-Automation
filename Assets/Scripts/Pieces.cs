@@ -16,6 +16,7 @@ public class Pieces : MonoBehaviour
     public int attackDamage;
     public int baseAttackSpeed;
     public int baseAttackRange;
+    public int star;
     public string firstRace;
     public string secondaryRace;
     public string pieceClass;

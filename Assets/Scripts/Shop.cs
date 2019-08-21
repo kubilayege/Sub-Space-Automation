@@ -8,6 +8,7 @@ public class Shop : MonoBehaviour
     public List<Transform> pieceSlotsList; //Shop slot pozisyonları listesi
     public List<GameObject> tempShopPieces;
     public List<GameObject> tempUpgradeUnit; //upgrade için
+    public List<GameObject> unitlist;
     public int starCount = 0;
     float maxRayDistance = 5000;
     int poolSize = 100;
@@ -159,8 +160,33 @@ public class Shop : MonoBehaviour
         //yükseltme işlemi
         if(starCount > 2)
         {
-            Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
-            GameObject a = Instantiate(tempUpgradeUnit[0].transform.gameObject ,newPos , Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+            GameObject newUnit = null;
+            string unitName = unit.transform.parent.GetComponent<Pieces>().pieceName;
+            int unitStar = unit.transform.parent.GetComponent<Pieces>().star;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (unitName == unitlist[i].transform.GetComponent<Pieces>().pieceName && unitStar + 1 == unitlist[i].transform.GetComponent<Pieces>().star)
+                {
+                    newUnit = unitlist[i].transform.gameObject;
+
+                    Debug.Log("New unit " + newUnit);
+                }
+                
+            }
+
+            if(newUnit == null) // if koşulu tüm unitlerin üst birimleri eklenince silinecek doğru kısım else kısmı
+            {
+                Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
+                GameObject a = Instantiate(tempUpgradeUnit[0].transform.gameObject, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+            }
+            else
+            {
+                Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
+                GameObject a = Instantiate(newUnit, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+                a.transform.localScale = tempUpgradeUnit[0].transform.localScale;
+            }
+            
 
             for (int i = tempUpgradeUnit.Count - 1; i >= 0; i--)
             {
@@ -171,7 +197,7 @@ public class Shop : MonoBehaviour
                 tempUpgradeUnit.RemoveAt(i);
             }
             starCount = 0;
-             /*unit.transform.parent.GetComponent<Pieces>().star;*/
+            /*unit.transform.parent.GetComponent<Pieces>().star*/
         }
         else
         {

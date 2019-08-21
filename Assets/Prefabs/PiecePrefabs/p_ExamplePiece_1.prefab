@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7c393b69daf5643b701f4e6d184df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceName: 
+  pieceName: Warwick
   ICON: {fileID: 0}
   pieceCost: 1
   health: 500
@@ -57,6 +57,7 @@ MonoBehaviour:
   attackDamage: 0
   baseAttackSpeed: 0
   baseAttackRange: 0
+  star: 1
   firstRace: 
   secondaryRace: 
   pieceClass: 
