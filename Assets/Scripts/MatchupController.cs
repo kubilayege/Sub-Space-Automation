@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleSimulationController : MonoBehaviour
+public class MatchupController : MonoBehaviour
 {
     public List<Board> firstBoard;
     public List<Board> secondBoard;
@@ -16,7 +16,7 @@ public class BattleSimulationController : MonoBehaviour
             }
         }
     }
-  
+
     public void SetOpponent()
     {
         Debug.Log("i called from eventManager");
@@ -34,7 +34,7 @@ public class BattleSimulationController : MonoBehaviour
     {
         if (secondBoard.Count > 0)
         {
-            for (int i = secondBoard.Count-1; i >= 0; i--)
+            for (int i = secondBoard.Count - 1; i >= 0; i--)
             {
                 secondBoard.RemoveAt(i);
             }
@@ -43,10 +43,10 @@ public class BattleSimulationController : MonoBehaviour
         {
             for (int j = 0; j < 32; j++)
             {
-                if(firstBoard[i].transform.GetChild(0).GetChild(63 - j).childCount > 0)
-                Destroy(firstBoard[i].transform.GetChild(0).GetChild(63 - j).GetChild(0).gameObject);
+                if (firstBoard[i].enemyBoardList[j] != null)
+                    Destroy(firstBoard[i].enemyBoardList[j]);
             }
-            
+
         }
     }
 
@@ -54,21 +54,24 @@ public class BattleSimulationController : MonoBehaviour
     {
         GameObject boardPlace;
         GameObject unit;
-        for(int i = 0; i < firstBoard.Count; i++)
+        for (int i = 0; i < firstBoard.Count; i++)
         {
-            for(int j = 0; j < 32; j++)
+            firstBoard[i].enemyUnitCount = 0;
+            for (int j = 0; j < 32; j++)
             {
                 boardPlace = firstBoard[i].transform.GetChild(0).GetChild(63 - j).gameObject;
-                
+
                 if (secondBoard[i].transform.GetChild(0).GetChild(j).childCount > 0)
                 {
                     unit = secondBoard[i].transform.GetChild(0).GetChild(j).GetChild(0).gameObject;
-                    Vector3 newPos = new Vector3(boardPlace.transform.position.x, unit.transform.position.y , boardPlace.transform.position.z);
-                    GameObject newObject =  Instantiate(unit, newPos, Quaternion.Inverse(Quaternion.identity), firstBoard[i].transform.GetChild(0).GetChild(63 - j).transform ) as GameObject;
+                    Vector3 newPos = new Vector3(boardPlace.transform.position.x, unit.transform.position.y, boardPlace.transform.position.z);
+                    GameObject newObject = Instantiate(unit, newPos, Quaternion.Inverse(Quaternion.identity), firstBoard[i].transform.GetChild(0).GetChild(63 - j).transform) as GameObject;
                     newObject.transform.forward = -newObject.transform.forward;
+                    firstBoard[i].enemyBoardList[j] = newObject;
+                    firstBoard[i].enemyUnitCount += 1;
                 }
             }
         }
-        
+
     }
 }

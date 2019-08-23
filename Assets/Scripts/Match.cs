@@ -33,7 +33,7 @@ public class Match : MonoBehaviour
         piecePoolObj.transform.parent = this.transform;
         for (int i = 0; i < 500; i++)
         {
-            piecePool.Add(Instantiate(gamePieces[i % 2], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, transform.GetChild(transform.childCount-1)));
+            piecePool.Add(Instantiate(gamePieces[i % gamePieces.Count], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, transform.GetChild(transform.childCount-1)));
         }
 
     }

@@ -6,19 +6,19 @@ using UnityEngine;
 public class EventTest : MonoBehaviour
 {
     [SerializeField] float preaperingTime = 5f;
-    [SerializeField] float fightTime = 10f;
+    public float fightTime = 10f;
     [SerializeField] float gameTime;
     [SerializeField] public int round = 0;
-    [SerializeField] int preaperOrFight = 1; //1 = preaper, -1 = fight;
+    public int preaperOrFight = 1; //1 = preaper, -1 = fight;
     [SerializeField] List<Shop> shops;
     [SerializeField] List<BotAI> bots;
     [SerializeField] List<PlayerPurse> purses;
     [SerializeField] Match match;
-    [SerializeField] BattleSimulationController battle;
+    [SerializeField] MatchupController matchups;
     void Start()
     {
         match = transform.GetComponent<Match>();
-        battle = transform.GetComponent<BattleSimulationController>();
+        matchups = transform.GetComponent<MatchupController>();
         GetPurses();
         GetShops();
         GetBots();
@@ -58,23 +58,85 @@ public class EventTest : MonoBehaviour
 
     void PreaperingRound(float time)
     {
-        battle.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
+        if (round > 0)
+        {
+            StopFights();
+            matchups.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
+            ResetBoards();
+        }
+
         GenerateIncome();
         GenerateExperience();
         ManageShops();
         StartCoroutine(DecreaseTime(time));
         //unlockMoveBoard();
         ++round;
-        
     }
     void FightRound(float time)
     {
-        battle.SetOpponent(); //karşına rakip atar;
+        matchups.SetOpponent(); //karşına rakip atar;
         StartCoroutine(DecreaseTime(time));
-
+        StartFighting();
         //lockMoveBoard();
 
     }
+    private void StartFighting()
+    {
+        for (int i = 0; i < bots.Count + 1; i++)
+        {
+            foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
+            {
+                if (unit != null)
+                    StartCoroutine(unit.GetComponent<PieceAI>().Fight());
+            }
+            foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
+            {
+                if (unit != null)
+                    StartCoroutine(unit.GetComponent<PieceAI>().Fight());
+            }
+        }
+    }
+
+    void StopFights()
+    {
+        for (int i = 0; i < bots.Count + 1; i++)
+        {
+            foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
+            {
+                if (unit != null)
+                    StopCoroutine(unit.GetComponent<PieceAI>().Fight());
+            }
+            foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
+            {
+                if (unit != null)
+                    StopCoroutine(unit.GetComponent<PieceAI>().Fight());
+            }
+        }
+    }
+
+    private void ResetBoards()
+    {
+        int index = 0;
+        for (int i = 0; i < bots.Count + 1; i++)
+        {
+            foreach (var item in match.boards[i].GetComponent<Board>().chessboardPosition)
+            {
+                if (item.transform.childCount != 0)
+                {
+                    index = match.boards[i].GetComponent<Board>().playerBoardList.IndexOf(item.transform.GetChild(0).gameObject);
+                    if (index != -1)
+                    {
+                        item.transform.GetChild(0).transform.parent = match.boards[i].GetComponent<Board>().chessboardPosition[index].transform;
+                        match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
+                                                                                                                      match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
+                                                                                                                      match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
+                    }
+                }
+            }
+
+        }
+    }
+
     private void GenerateExperience()
     {
         for (int i = 0; i < 8; i++)
