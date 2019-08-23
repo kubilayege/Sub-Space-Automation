@@ -64,7 +64,6 @@ public class EventTest : MonoBehaviour
             matchups.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
             ResetBoards();
         }
-
         GenerateIncome();
         GenerateExperience();
         ManageShops();
@@ -82,19 +81,41 @@ public class EventTest : MonoBehaviour
     }
     private void StartFighting()
     {
+        int Unitcounter = 0;
         for (int i = 0; i < bots.Count + 1; i++)
         {
             foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
             {
                 if (unit != null)
+                {
+                    Unitcounter += 1;
                     StartCoroutine(unit.GetComponent<PieceAI>().Fight());
+                    
+                }
             }
+            if (Unitcounter < 1)
+            {
+                break;
+
+            }
+            Unitcounter = 0;
             foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
             {
                 if (unit != null)
+                {
+                    Unitcounter += 1;
                     StartCoroutine(unit.GetComponent<PieceAI>().Fight());
+                }
+                
             }
+            if (Unitcounter < 1)
+            {
+                new WaitForSeconds(fightTime);
+                break;
+            }
+            Unitcounter = 0;
         }
+        
     }
 
     void StopFights()
