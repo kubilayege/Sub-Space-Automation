@@ -37,6 +37,7 @@ public class MovePiece : MonoBehaviour
             if (selectedUnit != null) MoveUnit(selectedUnit);
             selectedUnit = null;
             originOfSelectedUnit = null;
+            Destroy(candidateObj); //upgrade sonrası bugdan dolayı eklendi
         }
     }
     public GameObject SendRayToMousePosition()//mouse pozisyonundaki objeyi geri döndürür.
