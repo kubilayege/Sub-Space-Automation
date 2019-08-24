@@ -16,7 +16,7 @@ public class InGameUI : MonoBehaviour
     {
         shopPanel = transform.parent.GetChild(1).GetChild(3).GetChild(1).GetChild(0).gameObject;   //todo for every board
         shopPanel.SetActive(!shopPanel.activeInHierarchy);
-        Debug.Log(shopPanel.name + "" );
+       // Debug.Log(shopPanel.name + "" );
     }
     public void Reroll()
     {

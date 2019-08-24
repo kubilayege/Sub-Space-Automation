@@ -22,7 +22,7 @@ public class PlayerPurse : MonoBehaviour
     public void ModifyGold(int value)
     {
         gold += value;
-        Debug.Log("Bot -> " + transform.parent.GetSiblingIndex() + "  " + gold);
+      //  Debug.Log("Bot -> " + transform.parent.GetSiblingIndex() + "  " + gold);
     }
 
     public void CalculateIncome(int round, bool victory)

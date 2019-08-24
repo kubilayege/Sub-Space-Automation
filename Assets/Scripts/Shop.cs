@@ -120,94 +120,103 @@ public class Shop : MonoBehaviour
         
 
     }
+
     public void UpgradeUnit(Board board, GameObject unit)
     {
-        // chessboard kontrol ediliyor
-        for (int i = 0; i < 32; i++) 
+        for (int i = 0; i < 32; i++)
         {
             if (board.chessboardPosition[i].transform.childCount > 0)
             {
-                if (board.chessboardPosition[i].transform.GetChild(0).name == unit.transform.parent.name)
-                {
+                if (board.chessboardPosition[i].transform.GetChild(0).GetComponent<Pieces>().pieceName == unit.transform.parent.GetComponent<Pieces>().pieceName &&
+                     board.chessboardPosition[i].transform.GetChild(0).GetComponent<Pieces>().star == unit.transform.parent.GetComponent<Pieces>().star){
+
                     if (starCount < 3)
                     {
-                        //tempUpgradeUnit.Add(unit.transform.parent.gameObject);
                         tempUpgradeUnit.Add(board.chessboardPosition[i].transform.GetChild(0).gameObject);
                         starCount++;
                     }
+                    else { break; }
                 }
             }
-            
         }
-
-        // bench kontrol ediliyor
-        for (int i = 0; i < 8; i++) 
+        for (int i = 0; i < 8; i++)
         {
             if (board.benchPosition[i].transform.childCount > 0)
             {
-                if (board.benchPosition[i].transform.GetChild(0).name == unit.transform.parent.name)
+                if (board.benchPosition[i].transform.GetChild(0).GetComponent<Pieces>().pieceName == unit.transform.parent.GetComponent<Pieces>().pieceName &&
+                    board.benchPosition[i].transform.GetChild(0).GetComponent<Pieces>().star == unit.transform.parent.GetComponent<Pieces>().star)
                 {
-                    if (starCount < 3)
+                    if (starCount < 3 )
                     {
-                        //tempUpgradeUnit.Add(unit.transform.parent.gameObject);
                         tempUpgradeUnit.Add(board.benchPosition[i].transform.GetChild(0).gameObject);
                         starCount++;
                     }
+                    else { break; }
                 }
             }
         }
 
-        //yükseltme işlemi
-        if(starCount > 2)
+        if(starCount == 3 ||( unit.transform.parent.GetComponent<Pieces>().star == 2 && starCount == 2))
         {
+            starCount = 0;
             GameObject newUnit = null;
+            GameObject upgradedUnit = null;
             string unitName = unit.transform.parent.GetComponent<Pieces>().pieceName;
             int unitStar = unit.transform.parent.GetComponent<Pieces>().star;
-           int indexOfUnit =  board.playerBenchList.IndexOf(tempUpgradeUnit[0]);
-            for (int i = 0; i < 3; i++)
+            int indexOfUnit = board.playerBenchList.IndexOf(tempUpgradeUnit[0]);
+
+            if (indexOfUnit < 0)
+            {
+                indexOfUnit = 0;
+            }
+            for (int i = 0; i < unitlist.Count; i++)
             {
                 if (unitName == unitlist[i].transform.GetComponent<Pieces>().pieceName && unitStar + 1 == unitlist[i].transform.GetComponent<Pieces>().star)
                 {
                     newUnit = unitlist[i].transform.gameObject;
-
-                    Debug.Log("New unit " + newUnit);
                 }
-                
             }
 
-            if(newUnit == null) // if koşulu tüm unitlerin üst birimleri eklenince silinecek doğru kısım else kısmı
+            if (newUnit != null) // else koşulu tüm unitlerin üst birimleri eklenince silinecek 
             {
                 Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
-                GameObject a = Instantiate(tempUpgradeUnit[0].transform.gameObject, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+                upgradedUnit = Instantiate(newUnit, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+                upgradedUnit.transform.localScale = tempUpgradeUnit[0].transform.localScale;
+
+                if (upgradedUnit.transform.parent.CompareTag("BoardBlock"))
+                {
+                    board.playerBoardList[indexOfUnit] = upgradedUnit;
+                }
+                if (upgradedUnit.transform.parent.CompareTag("BenchBlock"))
+                {
+                    board.playerBenchList[indexOfUnit] = upgradedUnit;
+                }
             }
-            else
-            {
-                Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
-                GameObject a = Instantiate(newUnit, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
-                a.transform.localScale = tempUpgradeUnit[0].transform.localScale;
-                board.playerBenchList[indexOfUnit] = a;
-            }
+            //else
+            //{
+            //    Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
+            //    upgradedUnit = Instantiate(tempUpgradeUnit[0].transform.gameObject, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
+            //}
             
-
             for (int i = tempUpgradeUnit.Count - 1; i >= 0; i--)
             {
                 Destroy(tempUpgradeUnit[i].gameObject);
             }
-            for (int i = starCount - 1; i >= 0; i--)
+
+            Destroy(unit.transform.parent.gameObject);
+
+            tempUpgradeUnit.Clear();
+            if (upgradedUnit.transform.GetComponent<Pieces>().star == 2)
             {
-                tempUpgradeUnit.RemoveAt(i);
+                UpgradeUnit(board, upgradedUnit.transform.GetChild(0).gameObject);
             }
-            starCount = 0;
-            /*unit.transform.parent.GetComponent<Pieces>().star*/
         }
         else
         {
-            for (int i = starCount-1; i >= 0; i--)
-            {
-                tempUpgradeUnit.RemoveAt(i);
-            }
+            tempUpgradeUnit.Clear();
             starCount = 0;
         }
+
     }
 
     public void BotBuyUnit(Board board, PlayerPurse purse, GameObject tempSelectedUnit)

@@ -99,7 +99,7 @@ public class MovePiece : MonoBehaviour
                 indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
                 if(indexOf_TargetUnit != indexOf_SelectedUnit && indexOf_TargetUnit <= 32)
                 {
-                    Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                   // Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                     tempSwapVar = board.playerBoardList[indexOf_SelectedUnit];
 
                     board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
@@ -112,7 +112,7 @@ public class MovePiece : MonoBehaviour
             else if (targetUnit.CompareTag("BenchBlock"))
             {
                 indexOf_TargetUnit = board.benchPosition.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                //Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBoardList[indexOf_SelectedUnit];
 
                 board.playerBenchList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
@@ -133,7 +133,7 @@ public class MovePiece : MonoBehaviour
                 indexOf_TargetUnit = board.chessboardPosition.IndexOf(targetUnit);
                 if(indexOf_TargetUnit <= 32)
                 {
-                    Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                    //Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                     tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
 
                     board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
@@ -150,7 +150,7 @@ public class MovePiece : MonoBehaviour
                 indexOf_TargetUnit = board.benchPosition.IndexOf(targetUnit);
                 if(indexOf_TargetUnit != indexOf_SelectedUnit)
                 {
-                    Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                    //Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                     tempSwapVar = board.playerBenchList[indexOf_SelectedUnit];
 
                     board.playerBenchList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
@@ -177,7 +177,7 @@ public class MovePiece : MonoBehaviour
             if (targetUnit.transform.parent.CompareTag("BoardBlock"))
             {
                 indexOf_TargetUnit = board.playerBoardList.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                //Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBoardList[indexOf_TargetUnit];
 
                 board.playerBoardList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
@@ -190,7 +190,7 @@ public class MovePiece : MonoBehaviour
             else if (targetUnit.transform.parent.CompareTag("BenchBlock"))
             {
                 indexOf_TargetUnit = board.playerBenchList.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+                //Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBenchList[indexOf_TargetUnit];
 
                 board.playerBenchList[indexOf_TargetUnit] = board.playerBoardList[indexOf_SelectedUnit];
@@ -208,7 +208,7 @@ public class MovePiece : MonoBehaviour
             if (targetUnit.transform.parent.CompareTag("BoardBlock"))
             {
                 indexOf_TargetUnit = board.playerBoardList.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+               // Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBoardList[indexOf_TargetUnit];
 
                 board.playerBoardList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];
@@ -221,7 +221,7 @@ public class MovePiece : MonoBehaviour
             else if (targetUnit.transform.parent.CompareTag("BenchBlock"))
             {
                 indexOf_TargetUnit = board.playerBenchList.IndexOf(targetUnit);
-                Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
+               // Debug.Log(indexOf_SelectedUnit + "     " + indexOf_TargetUnit);
                 tempSwapVar = board.playerBenchList[indexOf_TargetUnit];
 
                 board.playerBenchList[indexOf_TargetUnit] = board.playerBenchList[indexOf_SelectedUnit];

@@ -32,7 +32,7 @@ public class Test : MonoBehaviour
         {
             if (transform.GetChild(i).gameObject.CompareTag("ClassOrRace"))
             {
-                Debug.Log("My Info " + transform.GetChild(i).gameObject.name);
+               // Debug.Log("My Info " + transform.GetChild(i).gameObject.name);
                 classorrace[i] = transform.GetChild(i).gameObject.name;
             }
         }

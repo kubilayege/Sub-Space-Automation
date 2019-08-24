@@ -19,7 +19,7 @@ public class MatchupController : MonoBehaviour
 
     public void SetOpponent()
     {
-        Debug.Log("i called from eventManager");
+       // Debug.Log("i called from eventManager");
         int randomNum = Random.Range(1, 7);
         Board first;
         for (int i = 0; i < firstBoard.Count; i++)

@@ -41,7 +41,7 @@ public class BotAI : MonoBehaviour
         {
             if (j >= shop.tempShopPieces.Count) break;
             int index = j % shop.tempShopPieces.Count;
-            Debug.Log("Round " + board.transform.parent.GetComponent<EventTest>().round+ ":" + j + "  " + shop.tempShopPieces.Count);
+            //Debug.Log("Round " + board.transform.parent.GetComponent<EventTest>().round+ ":" + j + "  " + shop.tempShopPieces.Count);
             if (board.playerBenchList.Contains(shop.tempShopPieces[index]) || board.playerBoardList.Contains(shop.tempShopPieces[index]))
             {
                 shop.BotBuyUnit(board, this.GetComponent<PlayerPurse>(), shop.tempShopPieces[index].transform.GetChild(0).gameObject);
