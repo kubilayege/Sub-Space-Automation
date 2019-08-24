@@ -6,7 +6,7 @@ using UnityEngine;
 public class EventTest : MonoBehaviour
 {
     [SerializeField] float preaperingTime = 5f;
-    public float fightTime = 10f;
+    public float fightTime = 20f;
     [SerializeField] float gameTime;
     [SerializeField] public int round = 0;
     public int preaperOrFight = 1; //1 = preaper, -1 = fight;

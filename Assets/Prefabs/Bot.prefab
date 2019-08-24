@@ -270,6 +270,29 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8198573533074125034, guid: a05c04fda8e450a498180d9d1d029852,
+        type: 3}
+      propertyPath: unitlist.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8198573533074125034, guid: a05c04fda8e450a498180d9d1d029852,
+        type: 3}
+      propertyPath: unitlist.Array.data[0]
+      value: 
+      objectReference: {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0,
+        type: 3}
+    - target: {fileID: 8198573533074125034, guid: a05c04fda8e450a498180d9d1d029852,
+        type: 3}
+      propertyPath: unitlist.Array.data[1]
+      value: 
+      objectReference: {fileID: 3151280988130582610, guid: af8031f35b6efbc45b9de9ee8d84feaa,
+        type: 3}
+    - target: {fileID: 8198573533074125034, guid: a05c04fda8e450a498180d9d1d029852,
+        type: 3}
+      propertyPath: unitlist.Array.data[2]
+      value: 
+      objectReference: {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a05c04fda8e450a498180d9d1d029852, type: 3}
 --- !u!224 &8002545940434747935 stripped

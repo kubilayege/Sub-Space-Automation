@@ -107,7 +107,7 @@ public class Shop : MonoBehaviour
                     tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
 
-                    UpgradeUnit(tempSelectedUnit);
+                    UpgradeUnit(board, tempSelectedUnit);
 
                     tempSelectedUnit = null;
                     break;
@@ -120,7 +120,7 @@ public class Shop : MonoBehaviour
         
 
     }
-    public void UpgradeUnit(GameObject unit)
+    public void UpgradeUnit(Board board, GameObject unit)
     {
         // chessboard kontrol ediliyor
         for (int i = 0; i < 32; i++) 
@@ -163,7 +163,7 @@ public class Shop : MonoBehaviour
             GameObject newUnit = null;
             string unitName = unit.transform.parent.GetComponent<Pieces>().pieceName;
             int unitStar = unit.transform.parent.GetComponent<Pieces>().star;
-
+           int indexOfUnit =  board.playerBenchList.IndexOf(tempUpgradeUnit[0]);
             for (int i = 0; i < 3; i++)
             {
                 if (unitName == unitlist[i].transform.GetComponent<Pieces>().pieceName && unitStar + 1 == unitlist[i].transform.GetComponent<Pieces>().star)
@@ -185,6 +185,7 @@ public class Shop : MonoBehaviour
                 Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
                 GameObject a = Instantiate(newUnit, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
                 a.transform.localScale = tempUpgradeUnit[0].transform.localScale;
+                board.playerBenchList[indexOfUnit] = a;
             }
             
 
@@ -231,6 +232,9 @@ public class Shop : MonoBehaviour
                     board.playerBenchList[i] = tempSelectedUnit.transform.parent.gameObject;
                     tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
+
+                    UpgradeUnit(board, tempSelectedUnit);
+
                     tempSelectedUnit = null;
                     break;
 

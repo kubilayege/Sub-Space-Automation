@@ -721,6 +721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901584e4e2124dc4c9541cc6427c359f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstBoard: []
+  secondBoard: []
 --- !u!114 &5777368675840541028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,7 +736,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preaperingTime: 5
-  fightTime: 10
+  fightTime: 15
   gameTime: 0
   round: 0
   preaperOrFight: 1
@@ -742,6 +744,7 @@ MonoBehaviour:
   bots: []
   purses: []
   match: {fileID: 0}
+  matchups: {fileID: 0}
 --- !u!1 &1193064077075273775
 GameObject:
   m_ObjectHideFlags: 0
