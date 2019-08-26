@@ -69,13 +69,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: Pyke
   ICON: {fileID: 0}
+  maxHealth: 500
   pieceCost: 2
   health: 500
   mana: 0
+  maxiumumMana: 0
   armor: 0
   magicalResistance: 0
-  attackDamage: 0
-  baseAttackSpeed: 0
+  attackDamage: 175
+  baseAttackSpeed: 1.5
   baseAttackRange: 0
   star: 1
   firstRace: 

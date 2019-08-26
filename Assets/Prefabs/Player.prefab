@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7727314d582cc8c40a8ba203f12558df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 0
+  gold: 1
   victoryCount: 0
   loseCount: 0
 --- !u!114 &6014672702281696871
@@ -74,6 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22ad68516320ea4e8db0413d5dde26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experience: 0
+  requiredExp: 1
+  level: 0
 --- !u!1001 &165080628349498269
 PrefabInstance:
   m_ObjectHideFlags: 0

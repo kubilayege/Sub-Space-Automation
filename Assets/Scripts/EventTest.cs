@@ -7,7 +7,7 @@ public class EventTest : MonoBehaviour
 {
     [SerializeField] float preaperingTime = 5f;
     public float fightTime = 20f;
-    [SerializeField] float gameTime;
+    public float gameTime;
     [SerializeField] public int round = 0;
     public int preaperOrFight = 1; //1 = preaper, -1 = fight;
     [SerializeField] List<Shop> shops;
@@ -60,11 +60,11 @@ public class EventTest : MonoBehaviour
     {
         if (round > 0)
         {
+            matchups.Results();
             StopFights();
             matchups.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
             ResetBoards();
         }
-        GenerateIncome();
         GenerateExperience();
         ManageShops();
         StartCoroutine(DecreaseTime(time));
@@ -81,39 +81,26 @@ public class EventTest : MonoBehaviour
     }
     private void StartFighting()
     {
-        int Unitcounter = 0;
         for (int i = 0; i < bots.Count + 1; i++)
         {
+            if (match.boards[i].GetComponent<Board>().playerUnitCount == 0 || match.boards[i].GetComponent<Board>().enemyUnitCount == 0)
+                continue;
             foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
             {
                 if (unit != null)
                 {
-                    Unitcounter += 1;
                     StartCoroutine(unit.GetComponent<PieceAI>().Fight());
-                    
                 }
             }
-            if (Unitcounter < 1)
-            {
-                break;
 
-            }
-            Unitcounter = 0;
             foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
             {
                 if (unit != null)
                 {
-                    Unitcounter += 1;
                     StartCoroutine(unit.GetComponent<PieceAI>().Fight());
                 }
                 
             }
-            if (Unitcounter < 1)
-            {
-                new WaitForSeconds(fightTime);
-                break;
-            }
-            Unitcounter = 0;
         }
         
     }
@@ -122,15 +109,29 @@ public class EventTest : MonoBehaviour
     {
         for (int i = 0; i < bots.Count + 1; i++)
         {
+            if (match.boards[i].GetComponent<Board>().playerUnitCount == 0 || match.boards[i].GetComponent<Board>().enemyUnitCount == 0)
+                continue;
             foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
             {
                 if (unit != null)
-                    StopCoroutine(unit.GetComponent<PieceAI>().Fight());
+                {
+                    if (!unit.transform.parent.CompareTag("Graveyard"))
+                    {
+                        StopCoroutine(unit.GetComponent<PieceAI>().Fight());
+                    }
+                }
+                 
             }
+
             foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
             {
                 if (unit != null)
-                    StopCoroutine(unit.GetComponent<PieceAI>().Fight());
+                {
+                    if (!unit.transform.parent.CompareTag("Graveyard"))
+                    {
+                        StopCoroutine(unit.GetComponent<PieceAI>().Fight());
+                    }
+                }
             }
         }
     }
@@ -140,17 +141,33 @@ public class EventTest : MonoBehaviour
         int index = 0;
         for (int i = 0; i < bots.Count + 1; i++)
         {
-            foreach (var item in match.boards[i].GetComponent<Board>().chessboardPosition)
+            //foreach (var item in match.boards[i].GetComponent<Board>().chessboardPosition)
+            //{
+            //    if (item.transform.childCount != 0)
+            //    {
+            //        index = match.boards[i].GetComponent<Board>().playerBoardList.IndexOf(item.transform.GetChild(0).gameObject);
+            //        if (index != -1)
+            //        {
+            //            item.transform.GetChild(0).transform.parent = match.boards[i].GetComponent<Board>().chessboardPosition[index].transform;
+            //            match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
+            //                                                                                                          match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
+            //                                                                                                          match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
+            //        }
+            //    }
+            //}
+
+            foreach (var item in match.boards[i].GetComponent<Board>().playerBoardList)
             {
-                if (item.transform.childCount != 0)
+                if (item != null)
                 {
-                    index = match.boards[i].GetComponent<Board>().playerBoardList.IndexOf(item.transform.GetChild(0).gameObject);
+                    index = match.boards[i].GetComponent<Board>().playerBoardList.IndexOf(item.gameObject);
                     if (index != -1)
                     {
-                        item.transform.GetChild(0).transform.parent = match.boards[i].GetComponent<Board>().chessboardPosition[index].transform;
-                        match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
-                                                                                                                      match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
-                                                                                                                      match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
+                        item.transform.parent = match.boards[i].GetComponent<Board>().chessboardPosition[index].transform;
+                        //match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
+                        //                                                                                              match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
+                        //                                                                                              match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
+                        item.transform.localPosition = new Vector3(0, 64, 0);
                     }
                 }
             }
@@ -179,12 +196,9 @@ public class EventTest : MonoBehaviour
         }
     }
 
-    private void GenerateIncome()
+    public void GenerateIncome(PlayerPurse purse, bool victory)
     {
-        for (int i = 0; i < purses.Count; i++)
-        {
-            purses[i].CalculateIncome(round, true); // bool parametresi matchupların sonucuna göre gönderilecek.
-        }
+        purse.CalculateIncome(round, victory); // bool parametresi matchupların sonucuna göre gönderilecek.     
     }
    
     IEnumerator DecreaseTime(float time)

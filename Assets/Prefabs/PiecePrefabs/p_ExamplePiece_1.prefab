@@ -69,14 +69,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pieceName: Warwick
   ICON: {fileID: 0}
+  maxHealth: 500
   pieceCost: 1
   health: 500
   mana: 0
+  maxiumumMana: 0
   armor: 0
   magicalResistance: 0
-  attackDamage: 0
-  baseAttackSpeed: 0
-  baseAttackRange: 0
+  attackDamage: 100
+  baseAttackSpeed: 1
+  baseAttackRange: 180
   star: 1
   firstRace: 
   secondaryRace: 

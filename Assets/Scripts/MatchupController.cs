@@ -6,8 +6,12 @@ public class MatchupController : MonoBehaviour
 {
     public List<Board> firstBoard;
     public List<Board> secondBoard;
+    EventTest events;
+
     private void Start()
     {
+        events = GetComponent<EventTest>();
+        
         for (int i = 0; i < 8; i++)
         {
             if (transform.GetChild(i + 1).GetChild(3) != null)
@@ -73,5 +77,22 @@ public class MatchupController : MonoBehaviour
             }
         }
 
+    }
+
+    public void Results()
+    {
+        foreach (var board in firstBoard)
+        {
+            events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true); // bu silinecek
+
+            //if (board.enemyUnitCount == 0)
+            //{
+            //    events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true);
+            //}
+            //else if(board.playerUnitCount == 0)
+            //{
+            //    events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), false);
+            //}
+        }
     }
 }

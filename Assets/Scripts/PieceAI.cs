@@ -9,6 +9,9 @@ public class PieceAI : MonoBehaviour
     public Board board;
     public Match match;
 
+    Pieces targetAttiributes;
+    Pieces unitAttiributes;
+
     public List<GameObject> adjacentBlocksOfThisUnit;
     public List<GameObject> adjacentBlocksOfTarget;
     public List<GameObject> emptyBoardPos;
@@ -19,16 +22,20 @@ public class PieceAI : MonoBehaviour
         InitializePiece();
         if (board.playerUnitCount == 0 || board.enemyUnitCount == 0)
         {
-            yield return new WaitForSeconds(match.GetComponent<EventTest>().fightTime);
+            yield break;
         }
         while (match.GetComponent<EventTest>().preaperOrFight == -1)
         {
             if (match.GetComponent<MatchupController>().secondBoard[match.GetComponent<MatchupController>().firstBoard.IndexOf(board)].playerUnitCount > 0)
             {
-                if (CheckIfThereIsAdjacentToThisUnit())
+                if (transform.parent.CompareTag("Graveyard"))
                 {
-                    //Attack();
-                    yield return new WaitForSeconds(1f);// based on attackspeedof piece
+                    yield return new WaitForSeconds(match.GetComponent<EventTest>().gameTime);
+                }
+                else if (CheckIfThereIsAdjacentToThisUnit())
+                {
+                    Attack();
+                    yield return new WaitForSeconds(1.0f/unitAttiributes.baseAttackSpeed);// based on attackspeedof piece
                 }
                 else
                 {
@@ -42,8 +49,25 @@ public class PieceAI : MonoBehaviour
 
     }
 
+    private void Attack()
+    {
+        Pieces targetAttiributes = target.GetComponent<Pieces>();
+
+        targetAttiributes.UpdateHealth(-targetAttiributes.attackDamage);
+
+        if(targetAttiributes.health == 0)
+        {
+            target = null;
+            return;
+        }
+    }
+
     private void MovePieceToTarget()
     {
+        if (target.transform.parent.CompareTag("Graveyard"))
+        {
+            return;
+        }
         float minDistance = float.MaxValue;
         GameObject targetPlace = this.transform.parent.gameObject;
         GameObject pathToTarget = this.transform.parent.gameObject;
@@ -80,10 +104,12 @@ public class PieceAI : MonoBehaviour
     private bool CheckIfThereIsAdjacentToThisUnit()
     {
         int indexOfUnit = board.chessboardPosition.IndexOf(transform.parent.gameObject);
-        if (this.gameObject == board.chessboardPosition[indexOfUnit].transform.GetChild(0).gameObject)
-            FindAdjacentBlocks(board.chessboardPosition[indexOfUnit], adjacentBlocksOfThisUnit);
-        else
-            return false;
+        if(indexOfUnit == -1)
+        {
+            Debug.Log(transform.parent.name);
+        }
+
+        FindAdjacentBlocks(board.chessboardPosition[indexOfUnit], adjacentBlocksOfThisUnit);
 
         if (target != null)
         {
@@ -111,29 +137,6 @@ public class PieceAI : MonoBehaviour
             }
         }
 
-        //foreach (var boardPlace in adjacentBlocksOfThisUnit)
-        //{
-        //    if(boardPlace.transform.childCount != 0)
-        //    {
-        //        if (board.enemyBoardList.Contains(this.gameObject))
-        //        {
-        //            if (board.playerBoardList.Contains(boardPlace.transform.GetChild(0).gameObject))
-        //            {
-        //                target = boardPlace.transform.GetChild(0).gameObject;
-        //                return true;
-        //            }
-        //        }
-        //        else if (board.playerBoardList.Contains(this.gameObject))
-        //        {
-        //            if (board.enemyBoardList.Contains(boardPlace.transform.GetChild(0).gameObject))
-        //            {
-        //                target = boardPlace.transform.GetChild(0).gameObject;
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //}
-
         return false;
     }
 
@@ -141,6 +144,7 @@ public class PieceAI : MonoBehaviour
     {
         board = transform.parent.parent.parent.GetComponent<Board>();
         match = transform.parent.parent.parent.parent.GetComponent<Match>();
+        unitAttiributes = gameObject.GetComponent<Pieces>();
         adjacentBlocksOfTarget.Clear();
         adjacentBlocksOfThisUnit.Clear();
     }
