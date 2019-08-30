@@ -41,7 +41,7 @@ public class EventTest : MonoBehaviour
     {
         for (int i = 1; i < 9; i++)
         {
-            shops.Add(transform.GetChild(i).GetChild(3).GetChild(1).GetChild(0).GetComponent<Shop>());
+            shops.Add(transform.GetChild(i).GetChild(3).GetChild(1).GetComponent<Shop>());
         }
        
     }
@@ -60,8 +60,8 @@ public class EventTest : MonoBehaviour
     {
         if (round > 0)
         {
-            matchups.Results();
             StopFights();
+            matchups.Results();
             matchups.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
             ResetBoards();
         }
@@ -81,11 +81,11 @@ public class EventTest : MonoBehaviour
     }
     private void StartFighting()
     {
-        for (int i = 0; i < bots.Count + 1; i++)
+        for (int i = 0; i < matchups.firstBoard.Count; i++)
         {
-            if (match.boards[i].GetComponent<Board>().playerUnitCount == 0 || match.boards[i].GetComponent<Board>().enemyUnitCount == 0)
-                continue;
-            foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
+            //if (match.boards[i].GetComponent<Board>().playerUnitCount == 0 || match.boards[i].GetComponent<Board>().enemyUnitCount == 0)
+            //    continue;
+            foreach (var unit in matchups.firstBoard[i].GetComponent<Board>().playerBoardList)
             {
                 if (unit != null)
                 {
@@ -93,7 +93,7 @@ public class EventTest : MonoBehaviour
                 }
             }
 
-            foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
+            foreach (var unit in matchups.firstBoard[i].GetComponent<Board>().enemyBoardList)
             {
                 if (unit != null)
                 {
@@ -107,11 +107,11 @@ public class EventTest : MonoBehaviour
 
     void StopFights()
     {
-        for (int i = 0; i < bots.Count + 1; i++)
+        for (int i = 0; i < matchups.firstBoard.Count; i++)
         {
-            if (match.boards[i].GetComponent<Board>().playerUnitCount == 0 || match.boards[i].GetComponent<Board>().enemyUnitCount == 0)
-                continue;
-            foreach (var unit in match.boards[i].GetComponent<Board>().playerBoardList)
+            //if (match.boards[i].GetComponent<Board>().playerUnitCount == 0 || match.boards[i].GetComponent<Board>().enemyUnitCount == 0)
+            //    continue;
+            foreach (var unit in matchups.firstBoard[i].GetComponent<Board>().playerBoardList)
             {
                 if (unit != null)
                 {
@@ -123,7 +123,7 @@ public class EventTest : MonoBehaviour
                  
             }
 
-            foreach (var unit in match.boards[i].GetComponent<Board>().enemyBoardList)
+            foreach (var unit in matchups.firstBoard[i].GetComponent<Board>().enemyBoardList)
             {
                 if (unit != null)
                 {
@@ -139,7 +139,7 @@ public class EventTest : MonoBehaviour
     private void ResetBoards()
     {
         int index = 0;
-        for (int i = 0; i < bots.Count + 1; i++)
+        for (int i = 0; i < matchups.firstBoard.Count; i++)
         {
             //foreach (var item in match.boards[i].GetComponent<Board>().chessboardPosition)
             //{
@@ -154,20 +154,22 @@ public class EventTest : MonoBehaviour
             //                                                                                                          match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
             //        }
             //    }
-            //}
-
-            foreach (var item in match.boards[i].GetComponent<Board>().playerBoardList)
+            ////}
+            //if (match.boards[i].GetComponent<Board>().playerUnitCount == 0)
+            //    continue;
+            foreach (var item in matchups.firstBoard[i].GetComponent<Board>().playerBoardList)
             {
                 if (item != null)
                 {
-                    index = match.boards[i].GetComponent<Board>().playerBoardList.IndexOf(item.gameObject);
+                    index = matchups.firstBoard[i].GetComponent<Board>().playerBoardList.IndexOf(item.gameObject);
                     if (index != -1)
                     {
-                        item.transform.parent = match.boards[i].GetComponent<Board>().chessboardPosition[index].transform;
+                        item.transform.parent = matchups.firstBoard[i].GetComponent<Board>().chessboardPosition[index].transform;
                         //match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
                         //                                                                                              match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
                         //                                                                                              match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
                         item.transform.localPosition = new Vector3(0, 64, 0);
+                        item.transform.rotation = Quaternion.identity;
                     }
                 }
             }
@@ -219,13 +221,13 @@ public class EventTest : MonoBehaviour
             FightRound(fightTime);
     }
 
-    private void OnGUI()
-    {
-        GUI.skin.label.fontSize = 40;
-        if (preaperOrFight == 1)
-            GUI.Label(new Rect(Screen.width - 300, Screen.height - Screen.height + 20, Screen.width, Screen.height), "Round  " + round + "\nPreapering: " + gameTime);
-        else
-            GUI.Label(new Rect(Screen.width - 300, Screen.height - Screen.height + 20, Screen.width, Screen.height), "Round  " + round + "\nFighting: " + gameTime);
-    }
+    //private void OnGUI()
+    //{
+    //    GUI.skin.label.fontSize = 40;
+    //    if (preaperOrFight == 1)
+    //        GUI.Label(new Rect(Screen.width - 300, Screen.height - Screen.height + 20, Screen.width, Screen.height), "Round  " + round + "\nPreapering: " + gameTime);
+    //    else
+    //        GUI.Label(new Rect(Screen.width - 300, Screen.height - Screen.height + 20, Screen.width, Screen.height), "Round  " + round + "\nFighting: " + gameTime);
+    //}
 
 }

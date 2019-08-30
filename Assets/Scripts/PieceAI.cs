@@ -20,32 +20,37 @@ public class PieceAI : MonoBehaviour
     public IEnumerator Fight()
     {
         InitializePiece();
-        if (board.playerUnitCount == 0 || board.enemyUnitCount == 0)
+        Debug.Log(board.playerUnitCount + "   " + board.enemyUnitCount);
+        if (!(board.playerUnitCount == 0 || board.enemyUnitCount == 0))
         {
-            yield break;
-        }
-        while (match.GetComponent<EventTest>().preaperOrFight == -1)
-        {
-            if (match.GetComponent<MatchupController>().secondBoard[match.GetComponent<MatchupController>().firstBoard.IndexOf(board)].playerUnitCount > 0)
+            while (match.GetComponent<EventTest>().preaperOrFight == -1)
             {
-                if (transform.parent.CompareTag("Graveyard"))
+                if (match.GetComponent<MatchupController>().secondBoard[match.GetComponent<MatchupController>().firstBoard.IndexOf(board)].playerUnitCount > 0)
                 {
-                    yield return new WaitForSeconds(match.GetComponent<EventTest>().gameTime);
-                }
-                else if (CheckIfThereIsAdjacentToThisUnit())
-                {
-                    Attack();
-                    yield return new WaitForSeconds(1.0f/unitAttiributes.baseAttackSpeed);// based on attackspeedof piece
-                }
-                else
-                {
-                    FindTarget();
-                    if (target != null)
-                        MovePieceToTarget();
-                    yield return new WaitForSeconds(2.5f); // move speed of unit
+                    if (transform.parent.CompareTag("Graveyard"))
+                    {
+                        yield return new WaitForSeconds(match.GetComponent<EventTest>().gameTime);
+                    }
+                    else if (CheckIfThereIsAdjacentToThisUnit())
+                    {
+                        Attack();
+                        yield return new WaitForSeconds(1.0f / unitAttiributes.baseAttackSpeed);// based on attackspeedof piece
+                    }
+                    else
+                    {
+                        FindTarget();
+                        
+                        if (target != null)
+                        {
+                            MovePieceToTarget();
+
+                        }
+                        yield return new WaitForSeconds(2.5f); // move speed of unit
+                    }
                 }
             }
         }
+        
 
     }
 
@@ -96,6 +101,7 @@ public class PieceAI : MonoBehaviour
         if (pathToTarget != this.transform.parent.gameObject && pathToTarget.transform.childCount == 0)
         {
             this.transform.position = new Vector3(pathToTarget.transform.position.x, this.transform.position.y, pathToTarget.transform.position.z);
+            
             this.transform.parent = pathToTarget.transform;
             FindAdjacentBlocks(transform.parent.gameObject, adjacentBlocksOfThisUnit);
         }

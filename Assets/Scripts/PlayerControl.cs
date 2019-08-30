@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
 
     private void InitializeVariables()
     {
-        inGameShop = transform.GetChild(1).GetChild(0).GetComponent<Shop>();
+        inGameShop = transform.GetChild(1).GetComponent<Shop>();
     }
 
     // Update is called once per frame

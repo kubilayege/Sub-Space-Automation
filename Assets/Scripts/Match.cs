@@ -40,16 +40,42 @@ public class Match : MonoBehaviour
 
     void InitializeBoardSpawnPositions()
     {
-        for(int i = 0; i <8; i++)
+        for (int i = 0; i < 8; i++)
         {
-            if(i == 0)
+            if (i == 0)
             {
                 boards[i] = GameObject.Instantiate(boardPrefab, new Vector3(i * 2048, 0, 0), Quaternion.identity, this.transform);
             }
             else
             {
                 boards[i] = GameObject.Instantiate(botBoardPrefab, new Vector3(i * 2048, 0, 0), Quaternion.identity, this.transform);
+                boards[i].name = "BotBoard " + i;
             }
         }
+
+        //int k = 1;
+        //for (int i = -1; i < 2; i++)
+        //{
+        //    for (int j = -1; j< 2; j++)
+        //    {
+
+        //        if (i == 0 && j == 0)
+        //        {
+        //            continue;
+        //            boards[i] = GameObject.Instantiate(boardPrefab, new Vector3(i * 2048, 0, 0), Quaternion.identity, this.transform);
+        //        }
+        //        else if(i==-1 && j ==-1)
+        //        {
+        //            boards[k] = GameObject.Instantiate(boardPrefab, new Vector3(i * 2048, 1000, j*2048), Quaternion.identity, this.transform);
+
+        //        }
+        //        else
+        //        {
+        //            boards[k] = GameObject.Instantiate(botBoardPrefab, new Vector3(i * 2048, 1000, j * 2048), Quaternion.identity, this.transform);
+        //            boards[k].name = "BotBoard " + k;
+        //        }
+        //        k++;
+        //    }
+        //}
     }
 }

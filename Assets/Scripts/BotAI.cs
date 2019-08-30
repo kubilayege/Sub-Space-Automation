@@ -18,7 +18,7 @@ public class BotAI : MonoBehaviour
 
     void InitializeVariables()
     {
-        shop = transform.GetChild(1).GetChild(0).GetComponent<Shop>();
+        shop = transform.GetChild(1).GetComponent<Shop>();
         board = transform.parent.GetComponent<Board>();
         //botBench = board.playerBenchList;
         //botBench = board.playerBoardList;

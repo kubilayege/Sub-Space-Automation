@@ -50,15 +50,12 @@ public class Pieces : MonoBehaviour
 
     private void Die()
     {
-        //Board board = transform.parent.parent.parent.GetComponent<Board>();
-        //if (board.enemyBoardList.Contains(this.gameObject))
-        //{
-        //    board.enemyUnitCount -= 1;
-        //}
-        //else if (board.playerBoardList.Contains(this.gameObject))
-        //{
-        //    board.playerUnitCount -= 1;
-        //}
+        Board board = transform.parent.parent.parent.GetComponent<Board>();
+        if (board.enemyBoardList.Contains(this.gameObject))
+        {
+            board.enemyUnitCount -= 1;
+        }
+
         this.transform.parent = this.transform.parent.parent.parent.GetChild(4).transform; // Graveyard
         transform.localPosition = Vector3.zero;
     }

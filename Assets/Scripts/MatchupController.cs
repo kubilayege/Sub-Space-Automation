@@ -11,14 +11,8 @@ public class MatchupController : MonoBehaviour
     private void Start()
     {
         events = GetComponent<EventTest>();
+        FindBoards();
         
-        for (int i = 0; i < 8; i++)
-        {
-            if (transform.GetChild(i + 1).GetChild(3) != null)
-            {
-                firstBoard.Add(transform.GetChild(i + 1).GetComponent<Board>());
-            }
-        }
     }
 
     public void SetOpponent()
@@ -83,16 +77,53 @@ public class MatchupController : MonoBehaviour
     {
         foreach (var board in firstBoard)
         {
-            events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true); // bu silinecek
+            //events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true); // bu silinecek
 
-            //if (board.enemyUnitCount == 0)
-            //{
-            //    events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true);
-            //}
-            //else if(board.playerUnitCount == 0)
-            //{
-            //    events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), false);
-            //}
+            if (board.enemyUnitCount == 0)
+            {
+                Debug.Log(board.name + " won");
+                events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true);
+            }
+            else
+            {
+
+                board.transform.GetChild(3).GetComponent<Player>().TakeDamage(board.enemyUnitCount*2 + Mathf.Max(3, (int) events.round / 10));
+
+                events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), false);
+            }
+        }
+        CheckHealths();
+    }
+
+    private void CheckHealths()
+    {
+        for (int i = firstBoard.Count-1; i >= 0; i--)
+        {
+            Debug.Log("Working");
+            if (firstBoard[i].transform.GetChild(3).GetComponent<Player>().health < 0)
+                firstBoard[i].transform.GetChild(3).gameObject.SetActive(false);
+
+        }
+
+        FindBoards();
+    }
+
+    private void FindBoards()
+    {
+        firstBoard.Clear();
+        for (int i = 0; i < 8; i++)
+        {
+            if (transform.GetChild(i + 1).GetChild(3).gameObject.activeInHierarchy)
+            {
+                firstBoard.Add(transform.GetChild(i + 1).GetComponent<Board>());
+            }
+        }
+
+        if(firstBoard.Count < 2)
+        {
+            //GameOver 
+            // Winner firstBoard[0]
+
         }
     }
 }
