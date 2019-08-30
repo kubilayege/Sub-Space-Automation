@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public int experience=0;
     public int requiredExp=1;
     public int level=0;
-    public int health = 16;
+    public int health = 100;
     public Dictionary<int, Tuple<int,int>> levelExperienceTable = new Dictionary<int, Tuple<int, int>>(); 
 
     void Awake()
