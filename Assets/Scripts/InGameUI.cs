@@ -37,11 +37,11 @@ public class InGameUI : MonoBehaviour
         }
         if(events.preaperOrFight == 1)
         {
-            middleInfoPanel.text = "Units: " + match.boards[0].GetComponent<Board>().playerUnitCount + "/" + players[0].level + "    Prepering: " + events.gameTime;
+            middleInfoPanel.text = "Gold: " + players[0].GetComponent<PlayerPurse>().gold +  "  Units: " + match.boards[0].GetComponent<Board>().playerUnitCount + "/" + players[0].level + "    Prepering: " + events.gameTime;
         }
         else
         {
-            middleInfoPanel.text = "Units: " + match.boards[0].GetComponent<Board>().playerUnitCount + "/" + players[0].level + "    Fighting: " + events.gameTime;
+            middleInfoPanel.text = "Gold: " + players[0].GetComponent<PlayerPurse>().gold + "  Units: " + match.boards[0].GetComponent<Board>().playerUnitCount + "/" + players[0].level + "    Fighting: " + events.gameTime;
         }
         
     }
