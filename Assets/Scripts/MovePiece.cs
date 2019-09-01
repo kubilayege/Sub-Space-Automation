@@ -34,7 +34,12 @@ public class MovePiece : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
-            if (selectedUnit != null) MoveUnit(selectedUnit);
+            if (selectedUnit != null)
+            {
+                MoveUnit(selectedUnit);
+                board.CountPlayerUnits();
+            }
+            
             selectedUnit = null;
             originOfSelectedUnit = null;
             Destroy(candidateObj); //upgrade sonrası bugdan dolayı eklendi

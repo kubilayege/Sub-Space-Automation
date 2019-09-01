@@ -82,7 +82,8 @@ public class BotAI : MonoBehaviour
         {
             selectedUnit.transform.parent.position = placableBoardPosition(selectedUnit, moveUnitTo);
 
-            board.playerUnitCount += 1;
+
+            board.CountPlayerUnits();
         }
         
     }

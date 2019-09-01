@@ -145,7 +145,9 @@ public class Shop : MonoBehaviour
             }
         }
 
-      
+
+        board.CountPlayerUnits();
+
     }
 
     public void UpgradeUnit(Board board, GameObject unit)
@@ -248,16 +250,15 @@ public class Shop : MonoBehaviour
             tempUpgradeUnit.Clear();
             if (upgradedUnit.transform.GetComponent<Pieces>().star == 2)
             {
+                Debug.Log("Lol");
                 UpgradeUnit(board, upgradedUnit.transform.GetChild(0).gameObject);
             }
-            board.CountPlayerUnits();
         }
         else
         {
             tempUpgradeUnit.Clear();
             starCount = 0;
         }
-
     }
 
     public void BotBuyUnit(Board board, PlayerPurse purse, GameObject tempSelectedUnit)

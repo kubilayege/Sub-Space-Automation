@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7727314d582cc8c40a8ba203f12558df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 1
+  gold: 11
   victoryCount: 0
   loseCount: 0
 --- !u!114 &6014672702281696871

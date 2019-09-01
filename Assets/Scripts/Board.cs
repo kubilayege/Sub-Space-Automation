@@ -57,6 +57,7 @@ public class Board : MonoBehaviour
                 tempUnitCount++;
             }
         }
+        Debug.Log(playerUnitCount);
         playerUnitCount = tempUnitCount;
     }
 }
