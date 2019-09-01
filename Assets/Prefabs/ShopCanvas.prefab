@@ -152,7 +152,6 @@ GameObject:
   - component: {fileID: 5671661062678001693}
   - component: {fileID: 8972946778512969310}
   - component: {fileID: 4972806303716641059}
-  - component: {fileID: 8198573533074125034}
   m_Layer: 5
   m_Name: ShopPanel
   m_TagString: Untagged
@@ -217,34 +216,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!114 &8198573533074125034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3934225827451803745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73affe6dcd5749642bf04b36d0ce955c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gamePieces:
-  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
-  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
-  pieceSlotsList: []
-  tempShopPieces: []
-  tempUpgradeUnit: []
-  unitlist:
-  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
-  - {fileID: 3151280988130582610, guid: af8031f35b6efbc45b9de9ee8d84feaa, type: 3}
-  - {fileID: 8630269656392058345, guid: d57517b28af7ff846a4c816b5a6993b8, type: 3}
-  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
-  - {fileID: 8198900200367162466, guid: 07b07f0ac9f5bfb408f1063d7e6ae60a, type: 3}
-  - {fileID: 895143451405298865, guid: 83d56571c5dfbb147839512f20423acf, type: 3}
-  starCount: 0
-  match: {fileID: 0}
-  board: {fileID: 0}
 --- !u!1 &4473452564224403869
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +446,7 @@ GameObject:
   - component: {fileID: 1364540943072489033}
   - component: {fileID: 5070644759317126890}
   - component: {fileID: 3279828647424812842}
+  - component: {fileID: 8064904005020145783}
   m_Layer: 5
   m_Name: ShopCanvas
   m_TagString: Untagged
@@ -489,7 +461,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8816987391951138996}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -562,6 +534,36 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8064904005020145783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8816987391951138996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73affe6dcd5749642bf04b36d0ce955c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamePieces:
+  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
+  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
+  - {fileID: 3702614630747267051, guid: 81a48ba3e9932364c883f8567d9fee61, type: 3}
+  pieceSlotsList: []
+  tempShopPieces: []
+  unitlist:
+  - {fileID: 3702614630747267051, guid: a4d6a8643b9b58545892f79831dcf4c0, type: 3}
+  - {fileID: 3151280988130582610, guid: af8031f35b6efbc45b9de9ee8d84feaa, type: 3}
+  - {fileID: 8630269656392058345, guid: d57517b28af7ff846a4c816b5a6993b8, type: 3}
+  - {fileID: 669390935382557886, guid: 263a261f93f6e2243ba3f859a24ba543, type: 3}
+  - {fileID: 8198900200367162466, guid: 07b07f0ac9f5bfb408f1063d7e6ae60a, type: 3}
+  - {fileID: 895143451405298865, guid: 83d56571c5dfbb147839512f20423acf, type: 3}
+  - {fileID: 3702614630747267051, guid: 81a48ba3e9932364c883f8567d9fee61, type: 3}
+  - {fileID: 3702614630747267051, guid: f2360879fcf8be041a03214920516c71, type: 3}
+  - {fileID: 3702614630747267051, guid: 3069ed90e52edf54ba4ab4f9cc7c47da, type: 3}
+  match: {fileID: 0}
+  board: {fileID: 0}
 --- !u!1 &9222787339802063239
 GameObject:
   m_ObjectHideFlags: 0

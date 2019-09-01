@@ -109,41 +109,52 @@ public class PieceAI : MonoBehaviour
 
     private bool CheckIfThereIsAdjacentToThisUnit()
     {
-        int indexOfUnit = board.chessboardPosition.IndexOf(transform.parent.gameObject);
-        if(indexOfUnit == -1)
+
+        if(target != null && (target.transform.position-this.transform.position).magnitude <= this.GetComponent<Pieces>().baseAttackRange){
+            return true;
+        }
+        else
         {
-            Debug.Log(transform.parent.name);
+            int indexOfUnit = board.chessboardPosition.IndexOf(transform.parent.gameObject);
+            FindAdjacentBlocks(board.chessboardPosition[indexOfUnit], adjacentBlocksOfThisUnit);
+            return false;
         }
 
-        FindAdjacentBlocks(board.chessboardPosition[indexOfUnit], adjacentBlocksOfThisUnit);
+        
+        //if(indexOfUnit == -1)
+        //{
+        //    Debug.Log(transform.parent.name);
+        //}
 
-        if (target != null)
-        {
-            foreach (var boardPlace in adjacentBlocksOfThisUnit)
-            {
-                if (boardPlace.transform.childCount != 0)
-                {
-                    if (board.enemyBoardList.Contains(this.gameObject))
-                    {
-                        if (target == boardPlace.transform.GetChild(0).gameObject)
-                        {
+        
 
-                            return true;
-                        }
-                    }
-                    else if (board.playerBoardList.Contains(this.gameObject))
-                    {
-                        if (target == boardPlace.transform.GetChild(0).gameObject)
-                        {
+        //if (target != null)
+        //{
+        //    foreach (var boardPlace in adjacentBlocksOfThisUnit)
+        //    {
+        //        if (boardPlace.transform.childCount != 0)
+        //        {
+        //            if (board.enemyBoardList.Contains(this.gameObject))
+        //            {
+        //                if (target == boardPlace.transform.GetChild(0).gameObject)
+        //                {
 
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
+        //                    return true;
+        //                }
+        //            }
+        //            else if (board.playerBoardList.Contains(this.gameObject))
+        //            {
+        //                if (target == boardPlace.transform.GetChild(0).gameObject)
+        //                {
 
-        return false;
+        //                    return true;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        //return false;
     }
 
     private void InitializePiece()
@@ -156,8 +167,7 @@ public class PieceAI : MonoBehaviour
     }
 
     private void FindTarget()
-    {
-
+    {    
         if (board.enemyBoardList.Contains(this.gameObject))
         {
             float distance = float.MaxValue;

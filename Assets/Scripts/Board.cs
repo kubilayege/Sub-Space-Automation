@@ -46,4 +46,17 @@ public class Board : MonoBehaviour
             benchPosition.Add(bench.transform.GetChild(i).gameObject);
         }
     }
+
+    public void CountPlayerUnits()
+    {
+        int tempUnitCount = 0;
+        for (int i = 0; i < 32; i++)
+        {
+            if(chessboardPosition[i].transform.childCount > 0)
+            {
+                tempUnitCount++;
+            }
+        }
+        playerUnitCount = tempUnitCount;
+    }
 }

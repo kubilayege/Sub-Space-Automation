@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3539556940757524193}
   - component: {fileID: 218979352459210693}
   m_Layer: 0
-  m_Name: p_ExamplePiece_1
+  m_Name: p_ExamplePiece_3Star2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,19 +67,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7c393b69daf5643b701f4e6d184df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceName: Warwick
+  pieceName: Luci
   ICON: {fileID: 0}
   maxHealth: 500
   pieceCost: 1
   health: 500
   mana: 0
-  maxiumumMana: 0
+  maxiumumMana: 100
   armor: 0
   magicalResistance: 0
   attackDamage: 100
-  baseAttackSpeed: 1
-  baseAttackRange: 180
-  star: 1
+  baseAttackSpeed: 1.35
+  baseAttackRange: 720
+  star: 2
   firstRace: 
   secondaryRace: 
   pieceClass: 
@@ -316,11 +316,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 633396961398918722, guid: e7682b45d79a4774e96d3de7dbb26625,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.32788888
+      objectReference: {fileID: 0}
+    - target: {fileID: 633396961398918722, guid: e7682b45d79a4774e96d3de7dbb26625,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.208
+      objectReference: {fileID: 0}
+    - target: {fileID: 633396961398918722, guid: e7682b45d79a4774e96d3de7dbb26625,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.35121107
+      objectReference: {fileID: 0}
+    - target: {fileID: 633396961386418151, guid: e7682b45d79a4774e96d3de7dbb26625,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 633396961386418150, guid: e7682b45d79a4774e96d3de7dbb26625,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7c173934df500134981a593911dfa8ea, type: 2}
+      objectReference: {fileID: 2100000, guid: 267a18078e973034d993e119cd5fea42, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7682b45d79a4774e96d3de7dbb26625, type: 3}
 --- !u!4 &6170821021450518915 stripped

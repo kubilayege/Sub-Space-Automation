@@ -239,6 +239,7 @@ public class Shop : MonoBehaviour
             for (int i = tempUpgradeUnit.Count - 1; i >= 0; i--)
             {
                 StopCoroutine(tempUpgradeUnit[i].GetComponent<PieceAI>().Fight());
+                
                 Destroy(tempUpgradeUnit[i].gameObject);
             }
 
@@ -249,6 +250,7 @@ public class Shop : MonoBehaviour
             {
                 UpgradeUnit(board, upgradedUnit.transform.GetChild(0).gameObject);
             }
+            board.CountPlayerUnits();
         }
         else
         {

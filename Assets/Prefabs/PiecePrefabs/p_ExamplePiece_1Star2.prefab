@@ -78,7 +78,7 @@ MonoBehaviour:
   magicalResistance: 0
   attackDamage: 150
   baseAttackSpeed: 1
-  baseAttackRange: 0
+  baseAttackRange: 180
   star: 2
   firstRace: 
   secondaryRace: 
@@ -97,7 +97,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1001 &2429065558244301587
 PrefabInstance:
