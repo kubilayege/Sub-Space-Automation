@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -29,6 +29,11 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             inGameShop.BuyUnit(transform.parent.GetComponent<Board>(), this.GetComponent<PlayerPurse>());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
         }
     }
 }
