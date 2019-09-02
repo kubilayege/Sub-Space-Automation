@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Collections;
 
 public class MovePiece : MonoBehaviour
 {
@@ -26,7 +28,7 @@ public class MovePiece : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && selectedUnit == null)
         {
             SelectUnit();
-            
+            StartCoroutine(CloseShop());
         }
         if (Input.GetMouseButton(0) && selectedUnit != null)
         {
@@ -45,6 +47,17 @@ public class MovePiece : MonoBehaviour
             Destroy(candidateObj); //upgrade sonrası bugdan dolayı eklendi
         }
     }
+
+    public IEnumerator CloseShop()
+    {
+        if (board.transform.parent.GetChild(0).GetComponent<InGameUI>().shopPanel.activeInHierarchy)
+        {
+            yield return new WaitForSeconds(0.4f);
+            if(board.transform.parent.GetChild(0).GetComponent<InGameUI>().shopPanel.activeInHierarchy && selectedUnit != null)
+                board.transform.parent.GetChild(0).GetComponent<InGameUI>().ToggleShop();
+        }
+    }
+
     public GameObject SendRayToMousePosition()//mouse pozisyonundaki objeyi geri döndürür.
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

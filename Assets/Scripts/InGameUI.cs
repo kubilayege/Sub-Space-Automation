@@ -53,6 +53,8 @@ public class InGameUI : MonoBehaviour
         events = match.GetComponent<EventTest>();
         roundInfo = transform.GetChild(1).GetChild(3).GetChild(0).GetComponent<Text>();
         middleInfoPanel = transform.GetChild(1).GetChild(4).GetChild(0).GetComponent<Text>();
+
+        shopPanel = transform.parent.GetChild(1).GetChild(3).GetChild(1).GetChild(0).gameObject;
         GetPlayers();
         GetInfoPanels();
     }
@@ -75,15 +77,12 @@ public class InGameUI : MonoBehaviour
 
     public void ToggleShop()
     {
-        shopPanel = transform.parent.GetChild(1).GetChild(3).GetChild(1).GetChild(0).gameObject;   //todo for every board
         shopPanel.SetActive(!shopPanel.activeInHierarchy);
        // Debug.Log(shopPanel.name + "" );
     }
     public void Reroll()
     {
-        shopPanel = transform.parent.GetChild(1).GetChild(3).GetChild(1).gameObject;
         shopPanel.SetActive(true);
-        shopPanel.GetComponent<Shop>().RerollShopWithButton();
-
+        shopPanel.transform.parent.GetComponent<Shop>().RerollShopWithButton();
     }
 }
