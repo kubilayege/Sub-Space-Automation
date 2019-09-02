@@ -108,7 +108,7 @@ public class Shop : MonoBehaviour
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
 
                     StartCoroutine(UpgradeUnitQue(board, tempSelectedUnit));
-
+                    board.CountPlayerUnits();
                     break;
 
                 }
@@ -120,145 +120,148 @@ public class Shop : MonoBehaviour
 
     }
 
-    public IEnumerator UpgradeUnitQue(Board board,GameObject tempSelectedUnit)
+    public IEnumerator UpgradeUnitQue(Board board, GameObject unit)
     {
-        GameObject tempUnit = tempSelectedUnit;
-        if(tempUnit != null)
+        if(unit != null)
         {
-            if (match.GetComponent<EventTest>().preaperOrFight == -1)
+            List<GameObject> tempUpgradeUnit = new List<GameObject>();
+            int starCount = 0;
+            if(match.GetComponent<EventTest>().preaperOrFight == -1)
             {
-                float time = match.GetComponent<EventTest>().gameTime + 1f;
-                Debug.Log(time);
-                while (time > 0)
+                starCount = CheckUnitsForUpgrade(board, board.benchPosition, unit, tempUpgradeUnit, starCount);
+                if(starCount != 3)
                 {
-                    time -= 1;
-                    yield return new WaitForSeconds(1);
+                    tempUpgradeUnit.Clear();
+                    starCount = 0;
+                    starCount = CheckUnitsForUpgrade(board, board.chessboardPosition, unit, tempUpgradeUnit, starCount);
+                    starCount = CheckUnitsForUpgrade(board, board.benchPosition, unit, tempUpgradeUnit, starCount);
                 }
-
-                Debug.Log("lol" );
-
-                UpgradeUnit(board, tempUnit);
             }
             else
             {
-                UpgradeUnit(board, tempUnit);
+                starCount = CheckUnitsForUpgrade(board, board.chessboardPosition, unit, tempUpgradeUnit, starCount);
+                starCount = CheckUnitsForUpgrade(board, board.benchPosition, unit, tempUpgradeUnit, starCount);
+            }
+            
+            if (starCount == 3 || (unit.transform.parent.GetComponent<Pieces>().star == 2 && starCount == 2))
+            {
+                starCount = 0;
+                GameObject newUnit = null;
+                GameObject upgradedUnit = null;
+                string unitName = unit.transform.parent.GetComponent<Pieces>().pieceName;
+                int unitStar = unit.transform.parent.GetComponent<Pieces>().star;
+                int indexOfUnit = 0;
+                if (board.playerBenchList.IndexOf(tempUpgradeUnit[0]) >= 0)
+                {
+                    indexOfUnit = board.playerBenchList.IndexOf(tempUpgradeUnit[0]);
+                }
+                else if (board.playerBoardList.IndexOf(tempUpgradeUnit[0]) >= 0)
+                {
+                    indexOfUnit = board.playerBoardList.IndexOf(tempUpgradeUnit[0]);
+                }
+
+
+                for (int i = 0; i < unitlist.Count; i++)
+                {
+                    if (unitName == unitlist[i].transform.GetComponent<Pieces>().pieceName && unitStar + 1 == unitlist[i].transform.GetComponent<Pieces>().star)
+                    {
+                        newUnit = unitlist[i].transform.gameObject;
+                    }
+                }
+
+                
+                if (newUnit != null) // else koşulu tüm unitlerin üst birimleri eklenince silinecek 
+                {
+                    if (CheckIfUnitsAreOnBoard(tempUpgradeUnit) && match.GetComponent<EventTest>().preaperOrFight == -1)
+                    {
+                        float time = match.GetComponent<EventTest>().gameTime + 1f;
+                        while (time > 0)
+                        {
+                            time -= 1;
+                            yield return new WaitForSeconds(1);
+                        }
+                        if(tempUpgradeUnit[2] != null)
+                            CompleteUpgrading(board, unit, tempUpgradeUnit, newUnit, upgradedUnit,indexOfUnit);
+                    }
+                    else
+                    {
+                        CompleteUpgrading(board, unit, tempUpgradeUnit, newUnit, upgradedUnit, indexOfUnit);
+                    }
+                }
+            }
+            else
+            {
+                tempUpgradeUnit.Clear();
+                starCount = 0;
+            }
+        }
+    }
+
+    private int CheckUnitsForUpgrade(Board board, List<GameObject> benchOrBoardList, GameObject unit, List<GameObject> tempUpgradeUnit, int starCount)
+    {
+        for (int i = 0; i < benchOrBoardList.Count; i++)
+        {
+            if (benchOrBoardList[i].transform.childCount > 0)
+            {
+                if (!(board.enemyBoardList.Contains(benchOrBoardList[i].transform.GetChild(0).gameObject)) && benchOrBoardList[i].transform.GetChild(0).GetComponent<Pieces>().pieceName == unit.transform.parent.GetComponent<Pieces>().pieceName &&
+                    benchOrBoardList[i].transform.GetChild(0).GetComponent<Pieces>().star == unit.transform.parent.GetComponent<Pieces>().star)
+                {
+                    if (starCount < 3)
+                    {
+                        tempUpgradeUnit.Add(benchOrBoardList[i].transform.GetChild(0).gameObject);
+                        starCount++;
+                    }
+                    else { break; }
+                }
             }
         }
 
+        return starCount;
+    }
 
-        board.CountPlayerUnits();
+    private void CompleteUpgrading(Board board, GameObject unit, List<GameObject> tempUpgradeUnit,GameObject newUnit, GameObject upgradedUnit, int indexOfUnit)
+    {
+        Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
+        upgradedUnit = Instantiate(newUnit, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent.transform) as GameObject;
+        upgradedUnit.transform.localScale = tempUpgradeUnit[0].transform.localScale;
+
+        if (upgradedUnit.transform.parent.CompareTag("BoardBlock"))
+        {
+            board.playerBoardList[indexOfUnit] = upgradedUnit;
+        }
+        if (upgradedUnit.transform.parent.CompareTag("BenchBlock"))
+        {
+            board.playerBenchList[indexOfUnit] = upgradedUnit;
+        }
+
+        for (int i = tempUpgradeUnit.Count - 1; i >= 0; i--)
+        {
+            StopCoroutine(tempUpgradeUnit[i].GetComponent<PieceAI>().Fight());
+
+            Destroy(tempUpgradeUnit[i].gameObject);
+        }
+
+        Destroy(unit.transform.parent.gameObject);
+
+        tempUpgradeUnit.Clear();
+
+        if (upgradedUnit.transform.GetComponent<Pieces>().star == 2)
+        {
+            StartCoroutine(UpgradeUnitQue(board, upgradedUnit.transform.GetChild(0).gameObject));
+        }
 
     }
 
-    public void UpgradeUnit(Board board, GameObject unit)
+    private bool CheckIfUnitsAreOnBoard(List<GameObject> tempUpg)
     {
-        if(unit == null)
-        {  
-            return;
-        }
-
-        List<GameObject> tempUpgradeUnit = new List<GameObject>();
-        int starCount = 0;
-        for (int i = 0; i < 32; i++)
+        foreach(var unit in tempUpg)
         {
-            if (board.chessboardPosition[i].transform.childCount > 0)
+            if (unit.transform.parent.CompareTag("BoardBlock"))
             {
-                if ( (!board.enemyBoardList.Contains(board.chessboardPosition[i].transform.GetChild(0).gameObject)) && board.chessboardPosition[i].transform.GetChild(0).GetComponent<Pieces>().pieceName == unit.transform.parent.GetComponent<Pieces>().pieceName &&
-                     board.chessboardPosition[i].transform.GetChild(0).GetComponent<Pieces>().star == unit.transform.parent.GetComponent<Pieces>().star){
-
-                    if (starCount < 3)
-                    {
-                        tempUpgradeUnit.Add(board.chessboardPosition[i].transform.GetChild(0).gameObject);
-                        starCount++;
-                    }
-                    else { break; }
-                }
+                return true;
             }
         }
-        for (int i = 0; i < 8; i++)
-        {
-            if (board.benchPosition[i].transform.childCount > 0)
-            {
-                if (board.benchPosition[i].transform.GetChild(0).GetComponent<Pieces>().pieceName == unit.transform.parent.GetComponent<Pieces>().pieceName &&
-                    board.benchPosition[i].transform.GetChild(0).GetComponent<Pieces>().star == unit.transform.parent.GetComponent<Pieces>().star)
-                {
-                    if (starCount < 3 )
-                    {
-                        tempUpgradeUnit.Add(board.benchPosition[i].transform.GetChild(0).gameObject);
-                        starCount++;
-                    }
-                    else { break; }
-                }
-            }
-        }
-
-        if(starCount == 3 ||( unit.transform.parent.GetComponent<Pieces>().star == 2 && starCount == 2))
-        {
-            starCount = 0;
-            GameObject newUnit = null;
-            GameObject upgradedUnit = null;
-            string unitName = unit.transform.parent.GetComponent<Pieces>().pieceName;
-            int unitStar = unit.transform.parent.GetComponent<Pieces>().star;
-            int indexOfUnit = 0;
-            if (board.playerBenchList.IndexOf(tempUpgradeUnit[0]) >= 0)
-            {
-                indexOfUnit = board.playerBenchList.IndexOf(tempUpgradeUnit[0]);
-            }else if(board.playerBoardList.IndexOf(tempUpgradeUnit[0]) >= 0)
-            {
-                indexOfUnit = board.playerBoardList.IndexOf(tempUpgradeUnit[0]);
-            }
-
-            
-            for (int i = 0; i < unitlist.Count; i++)
-            {
-                if (unitName == unitlist[i].transform.GetComponent<Pieces>().pieceName && unitStar + 1 == unitlist[i].transform.GetComponent<Pieces>().star)
-                {
-                    newUnit = unitlist[i].transform.gameObject;
-                }
-            }
-
-            if (newUnit != null) // else koşulu tüm unitlerin üst birimleri eklenince silinecek 
-            {
-                Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
-                upgradedUnit = Instantiate(newUnit, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent.transform) as GameObject;
-                upgradedUnit.transform.localScale = tempUpgradeUnit[0].transform.localScale;
-
-                if (upgradedUnit.transform.parent.CompareTag("BoardBlock"))
-                {
-                    board.playerBoardList[indexOfUnit] = upgradedUnit;
-                }
-                if (upgradedUnit.transform.parent.CompareTag("BenchBlock"))
-                {
-                    board.playerBenchList[indexOfUnit] = upgradedUnit;
-                }
-            }
-            //else
-            //{
-            //    Vector3 newPos = new Vector3(tempUpgradeUnit[0].transform.position.x, tempUpgradeUnit[0].transform.position.y, tempUpgradeUnit[0].transform.position.z);
-            //    upgradedUnit = Instantiate(tempUpgradeUnit[0].transform.gameObject, newPos, Quaternion.identity, tempUpgradeUnit[0].transform.parent) as GameObject;
-            //}
-            
-            for (int i = tempUpgradeUnit.Count - 1; i >= 0; i--)
-            {
-                StopCoroutine(tempUpgradeUnit[i].GetComponent<PieceAI>().Fight());
-                
-                Destroy(tempUpgradeUnit[i].gameObject);
-            }
-
-            Destroy(unit.transform.parent.gameObject);
-
-            tempUpgradeUnit.Clear();
-            if (upgradedUnit.transform.GetComponent<Pieces>().star == 2)
-            {
-                Debug.Log("Lol");
-                UpgradeUnit(board, upgradedUnit.transform.GetChild(0).gameObject);
-            }
-        }
-        else
-        {
-            tempUpgradeUnit.Clear();
-            starCount = 0;
-        }
+        return false;
     }
 
     public void BotBuyUnit(Board board, PlayerPurse purse, GameObject tempSelectedUnit)
@@ -283,7 +286,8 @@ public class Shop : MonoBehaviour
                     tempShopPieces.Remove(tempSelectedUnit.transform.parent.gameObject);  //Shop ekranındaki gösterilen listeden siliniyor
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
 
-                    UpgradeUnit(board, tempSelectedUnit);
+                    StartCoroutine(UpgradeUnitQue(board, tempSelectedUnit));
+                    board.CountPlayerUnits();
 
                     tempSelectedUnit = null;
                     break;

@@ -54,10 +54,12 @@ public class Board : MonoBehaviour
         {
             if(chessboardPosition[i].transform.childCount > 0)
             {
-                tempUnitCount++;
+                if (playerBoardList.Contains(chessboardPosition[i].transform.GetChild(0).gameObject))
+                {
+                    tempUnitCount++;
+                }
             }
         }
-        Debug.Log(playerUnitCount);
         playerUnitCount = tempUnitCount;
     }
 }
