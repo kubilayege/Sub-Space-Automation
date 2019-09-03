@@ -39,7 +39,6 @@ public class MovePiece : MonoBehaviour
             if (selectedUnit != null)
             {
                 MoveUnit(selectedUnit);
-                board.CountPlayerUnits();
             }
             
             selectedUnit = null;
@@ -95,6 +94,7 @@ public class MovePiece : MonoBehaviour
             selectedUnit.transform.parent.position = newPos;
 
             SawpUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate.transform.parent.gameObject);
+
         }
         else if(placeCandidate != null)
         {

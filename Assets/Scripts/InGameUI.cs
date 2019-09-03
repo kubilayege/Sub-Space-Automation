@@ -86,7 +86,6 @@ public class InGameUI : MonoBehaviour
         {
             if(events.preaperOrFight == -1 && boardOfUnitSell.playerBoardList.Contains(unitToSell))
             {
-
                 sellButton.SetActive(true);
                 return;
             }
@@ -108,9 +107,16 @@ public class InGameUI : MonoBehaviour
 
             }
             players[0].GetComponent<PlayerPurse>().ModifyGold(costOfUnit + (starOfUnit - 1) * 2);
-            Destroy(unitToSell);
+            if (unitToSell.transform.parent.CompareTag("BoardBlock"))
+            {
+                Destroy(unitToSell);
+                boardOfUnitSell.playerUnitCount--;
+            }
+            else
+            {
+                Destroy(unitToSell);
+            }
             sellButton.SetActive(false);
-            boardOfUnitSell.CountPlayerUnits();
         }
 
     }
