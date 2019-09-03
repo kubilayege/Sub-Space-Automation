@@ -180,7 +180,7 @@ public class Shop : MonoBehaviour
                             time -= 1;
                             yield return new WaitForSeconds(1);
                         }
-                        if(tempUpgradeUnit[2] != null)
+                        if(tempUpgradeUnit[2] != null && tempUpgradeUnit[1] != null && tempUpgradeUnit[0] != null)
                             CompleteUpgrading(board, unit, tempUpgradeUnit, newUnit, upgradedUnit,indexOfUnit);
                     }
                     else

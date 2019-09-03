@@ -13,7 +13,7 @@ public class MovePiece : MonoBehaviour
     Board board;
     Transform originOfSelectedUnit;
     float maxRayDistance = 5000f;
-
+    public bool movementLock = false;
     private void Start()
     {
         board = transform.parent.gameObject.GetComponent<Board>();
@@ -86,6 +86,10 @@ public class MovePiece : MonoBehaviour
         
         if ((placeCandidate != null && (board.playerBenchList.Contains(placeCandidate.transform.parent.gameObject) || board.playerBoardList.Contains(placeCandidate.transform.parent.gameObject))))
         {
+            if((selectedUnit.transform.parent.parent.CompareTag("BoardBlock") || placeCandidate.transform.parent.parent.CompareTag("BoardBlock")) && !movementLock)
+            {
+                return; 
+            }
             Vector3 newPos = placeCandidate.transform.position;
             placeCandidate.transform.parent.position = originOfSelectedUnit.position;
             selectedUnit.transform.parent.position = newPos;
@@ -94,7 +98,11 @@ public class MovePiece : MonoBehaviour
         }
         else if(placeCandidate != null)
         {
-            if(RelocateUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate))
+            if ((selectedUnit.transform.parent.parent.CompareTag("BoardBlock") || placeCandidate.CompareTag("BoardBlock")) && !movementLock)
+            {
+                return;
+            }
+            if (RelocateUnitsPositionOnLists(selectedUnit.transform.parent.gameObject, placeCandidate))
             {
                 selectedUnit.transform.parent.position = placableBoardPosition(placeCandidate);
             }

@@ -65,20 +65,26 @@ public class EventTest : MonoBehaviour
             matchups.ResetOpponent(); //karşına gelen rakip bilgileri temizler;
             ResetBoards();
         }
+        ToogleLockMoveBoard();
         GenerateExperience();
         ManageShops();
         StartCoroutine(DecreaseTime(time));
-        //unlockMoveBoard();
         ++round;
     }
     void FightRound(float time)
     {
+        ToogleLockMoveBoard();
         matchups.SetOpponent(); //karşına rakip atar;
         StartCoroutine(DecreaseTime(time));
         StartFighting();
-        //lockMoveBoard();
 
     }
+
+    private void ToogleLockMoveBoard()
+    {
+        match.players[0].GetComponent<MovePiece>().movementLock = !match.players[0].GetComponent<MovePiece>().movementLock;
+    }
+
     private void StartFighting()
     {
         for (int i = 0; i < matchups.firstBoard.Count; i++)
@@ -194,7 +200,8 @@ public class EventTest : MonoBehaviour
         }
         for (int i = 0; i < bots.Count; i++)
         {
-            bots[i].BotDecideUnitToBuy();
+            if(bots[i].gameObject.activeInHierarchy)
+                bots[i].BotDecideUnitToBuy();
         }
     }
 

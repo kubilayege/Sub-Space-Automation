@@ -9,10 +9,16 @@ public class InGameUI : MonoBehaviour
     public Text roundInfo;
     public Text middleInfoPanel;
     public GameObject shopPanel;
+    public GameObject sellButton;
     public Match match;
     public EventTest events;
     public List<Player> players;
     public List<GameObject> playerInfo;
+
+    public GameObject unitToSell;
+    public List<GameObject> listToUnitSell;
+    public Board boardOfUnitSell;
+
 
     public void Start()
     {
@@ -46,14 +52,13 @@ public class InGameUI : MonoBehaviour
         
     }
 
-
     private void InitializeVariables()
     {
         match = transform.parent.GetComponent<Match>();
         events = match.GetComponent<EventTest>();
         roundInfo = transform.GetChild(1).GetChild(3).GetChild(0).GetComponent<Text>();
         middleInfoPanel = transform.GetChild(1).GetChild(4).GetChild(0).GetComponent<Text>();
-
+        sellButton = transform.GetChild(1).GetChild(6).gameObject;
         shopPanel = transform.parent.GetChild(1).GetChild(3).GetChild(1).GetChild(0).gameObject;
         GetPlayers();
         GetInfoPanels();
@@ -73,6 +78,41 @@ public class InGameUI : MonoBehaviour
         {
             players.Add(match.boards[i].transform.GetChild(3).GetComponent<Player>());
         }
+    }
+
+    public void SellUnit()
+    {
+        if (unitToSell != null)
+        {
+            if(events.preaperOrFight == -1 && boardOfUnitSell.playerBoardList.Contains(unitToSell))
+            {
+
+                sellButton.SetActive(true);
+                return;
+            }
+            int indexOfPieceType = -1;
+            int starOfUnit = unitToSell.GetComponent<Pieces>().star;
+            int costOfUnit = unitToSell.GetComponent<Pieces>().pieceCost;
+            string nameOfUnit = unitToSell.GetComponent<Pieces>().pieceName;
+
+            foreach (var unit in match.gamePieces)
+            {
+                if (unit.GetComponent<Pieces>().pieceName == nameOfUnit)
+                    indexOfPieceType = match.gamePieces.IndexOf(unit);
+            }
+
+            int indexOfPiece = listToUnitSell.IndexOf(unitToSell);
+            for (int i = 0; i < starOfUnit * 3; i++)
+            {
+                match.piecePool.Add(Instantiate(match.gamePieces[indexOfPieceType], new Vector3(6000 - i * 128, 0, 1500), Quaternion.identity, transform.parent.GetChild(transform.parent.childCount - 1).transform));
+
+            }
+            players[0].GetComponent<PlayerPurse>().ModifyGold(costOfUnit + (starOfUnit - 1) * 2);
+            Destroy(unitToSell);
+            sellButton.SetActive(false);
+            boardOfUnitSell.CountPlayerUnits();
+        }
+
     }
 
     public void ToggleShop()

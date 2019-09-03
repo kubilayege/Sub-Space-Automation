@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   candidatePrefab: {fileID: 8683942460830852044, guid: 077fe17c6c6fd0a46af4bdbe9420b9cd,
     type: 3}
+  movementLock: 0
 --- !u!114 &6614019453953512225
 MonoBehaviour:
   m_ObjectHideFlags: 0
