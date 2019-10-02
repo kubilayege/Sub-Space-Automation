@@ -21,7 +21,7 @@ public class PieceAI : MonoBehaviour
     {
         InitializePiece();
         Debug.Log(board.playerUnitCount + "   " + board.enemyUnitCount);
-        if (!(board.playerUnitCount == 0 || board.enemyUnitCount == 0))
+        if (!(board.playerBattleUnitCount == 0 || board.enemyBattleUnitCount == 0))
         {
             while (match.GetComponent<EventTest>().preaperOrFight == -1)
             {

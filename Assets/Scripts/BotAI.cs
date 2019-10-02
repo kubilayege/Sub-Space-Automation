@@ -50,24 +50,18 @@ public class BotAI : MonoBehaviour
                 shop.BotBuyUnit(board, this.GetComponent<PlayerPurse>(), shop.tempShopPieces[index].transform.GetChild(0).gameObject);
                 //Debug.Log(this.gameObject.name);
             }
-            int emptyIndex = 0;
-            for (int i = UnityEngine.Random.Range(0,31); i<board.playerBoardList.Count; i++)
+            List<int> emptyIndexList = new  List<int>();
+            emptyIndexList = FindEmptyPlacesOnBoard(board);
+
+
+            for (int i=0; i <8; i++)
             {
-                if (board.playerBoardList[i] == null)
+                if (board.playerUnitCount < this.GetComponent<Player>().level && board.playerBenchList[i] != null)
                 {
-                    emptyIndex = i;
-                    break;
-                }
-                if (board.playerBoardList[i] != null && i == 31)
-                {
-                    i = 0;
-                }
-            }
-            for(int i=0; i <8; i++)
-            {
-                if (board.playerUnitCount <= this.GetComponent<Player>().level && board.playerBenchList[i] != null)
-                {
-                    MoveUnit(board.playerBenchList[i].transform.GetChild(0).gameObject, board.chessboardPosition[emptyIndex]);
+                    int randomIndex = UnityEngine.Random.Range(0, emptyIndexList.Count - 1);
+
+                    MoveUnit(board.playerBenchList[i].transform.GetChild(0).gameObject, board.chessboardPosition[emptyIndexList[randomIndex]]);
+                    emptyIndexList.RemoveAt(randomIndex);
                 }
             }
             j++;
@@ -75,6 +69,18 @@ public class BotAI : MonoBehaviour
 
     }
 
+    List<int> FindEmptyPlacesOnBoard(Board board)
+    {
+        List<int> emptyIndexes = new List<int>();
+        for (int i = 0; i < board.playerBoardList.Count; i++)
+        {
+            if (board.playerBoardList[i] == null)
+            {
+                emptyIndexes.Add(i);
+            }
+        }
+        return emptyIndexes;
+    }
     public void MoveUnit(GameObject selectedUnit, GameObject moveUnitTo)
     {
 

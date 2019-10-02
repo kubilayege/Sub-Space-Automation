@@ -147,22 +147,6 @@ public class EventTest : MonoBehaviour
         int index = 0;
         for (int i = 0; i < matchups.firstBoard.Count; i++)
         {
-            //foreach (var item in match.boards[i].GetComponent<Board>().chessboardPosition)
-            //{
-            //    if (item.transform.childCount != 0)
-            //    {
-            //        index = match.boards[i].GetComponent<Board>().playerBoardList.IndexOf(item.transform.GetChild(0).gameObject);
-            //        if (index != -1)
-            //        {
-            //            item.transform.GetChild(0).transform.parent = match.boards[i].GetComponent<Board>().chessboardPosition[index].transform;
-            //            match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
-            //                                                                                                          match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
-            //                                                                                                          match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
-            //        }
-            //    }
-            ////}
-            //if (match.boards[i].GetComponent<Board>().playerUnitCount == 0)
-            //    continue;
             foreach (var item in matchups.firstBoard[i].GetComponent<Board>().playerBoardList)
             {
                 if (item != null)
@@ -171,9 +155,6 @@ public class EventTest : MonoBehaviour
                     if (index != -1)
                     {
                         item.transform.parent = matchups.firstBoard[i].GetComponent<Board>().chessboardPosition[index].transform;
-                        //match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position = new Vector3(match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.x,
-                        //                                                                                              match.boards[i].GetComponent<Board>().playerBoardList[index].transform.position.y,
-                        //                                                                                              match.boards[i].GetComponent<Board>().playerBoardList[index].transform.parent.position.z);
                         item.transform.localPosition = new Vector3(0, 64, 0);
                         item.transform.rotation = Quaternion.identity;
                     }

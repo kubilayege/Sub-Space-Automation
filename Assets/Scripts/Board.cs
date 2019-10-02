@@ -16,6 +16,8 @@ public class Board : MonoBehaviour
     public int benchSize = 8;
     public int playerUnitCount = 0;
     public int enemyUnitCount = 0;
+    public int playerBattleUnitCount = 0;
+    public int enemyBattleUnitCount = 0;
     //public GameObject[] playerBenchList;
     //public GameObject[] playerBoardList;
     //public GameObject[] enemyBenchList;

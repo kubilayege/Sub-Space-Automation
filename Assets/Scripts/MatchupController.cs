@@ -26,6 +26,17 @@ public class MatchupController : MonoBehaviour
             secondBoard.Add(first);
         }
         SetUnitForFight();
+        SetBattleUnitCounts();
+    }
+
+    private void SetBattleUnitCounts()
+    {
+        for(int i = 0; i<firstBoard.Count; i++)
+        {
+            firstBoard[i].playerBattleUnitCount = firstBoard[i].playerUnitCount;
+            firstBoard[i].enemyBattleUnitCount = secondBoard[i].playerUnitCount;
+
+        }
     }
 
     public void ResetOpponent()
@@ -79,7 +90,7 @@ public class MatchupController : MonoBehaviour
         {
             //events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true); // bu silinecek
 
-            if (board.enemyUnitCount == 0)
+            if (board.enemyBattleUnitCount == 0)
             {
                 Debug.Log(board.name + " won");
                 events.GenerateIncome(board.transform.GetChild(3).GetComponent<PlayerPurse>(), true);

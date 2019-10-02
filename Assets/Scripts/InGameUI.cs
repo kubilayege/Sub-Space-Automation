@@ -110,7 +110,7 @@ public class InGameUI : MonoBehaviour
             if (unitToSell.transform.parent.CompareTag("BoardBlock"))
             {
                 Destroy(unitToSell);
-                boardOfUnitSell.playerUnitCount--;
+                boardOfUnitSell.CountPlayerUnits();
             }
             else
             {

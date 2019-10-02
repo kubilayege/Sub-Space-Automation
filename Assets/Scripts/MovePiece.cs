@@ -148,7 +148,7 @@ public class MovePiece : MonoBehaviour
                 board.playerBoardList[indexOf_SelectedUnit] = null;
                 //Destroy(tempSwapVar);
 
-                board.playerUnitCount -= 1;
+                board.CountPlayerUnits();
                 return true;
             }
         }
@@ -167,7 +167,7 @@ public class MovePiece : MonoBehaviour
                     board.playerBoardList[indexOf_TargetUnit].transform.parent = board.chessboardPosition[indexOf_TargetUnit].transform;
                     board.playerBenchList[indexOf_SelectedUnit] = null;
 
-                    board.playerUnitCount += 1;
+                    board.CountPlayerUnits();
                     return true;
                 }
                 //Destroy(tempSwapVar);

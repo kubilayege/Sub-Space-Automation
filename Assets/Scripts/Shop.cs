@@ -108,7 +108,6 @@ public class Shop : MonoBehaviour
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
 
                     StartCoroutine(UpgradeUnitQue(board, tempSelectedUnit));
-                    board.CountPlayerUnits();
                     break;
 
                 }
@@ -116,8 +115,6 @@ public class Shop : MonoBehaviour
             }
             
         }
-        
-
     }
 
     public IEnumerator UpgradeUnitQue(Board board, GameObject unit)
@@ -249,6 +246,10 @@ public class Shop : MonoBehaviour
         {
             StartCoroutine(UpgradeUnitQue(board, upgradedUnit.transform.GetChild(0).gameObject));
         }
+        else
+        {
+            board.CountPlayerUnits();
+        }
 
     }
 
@@ -287,8 +288,7 @@ public class Shop : MonoBehaviour
                     tempSelectedUnit.transform.parent.parent = board.benchPosition[i].transform; //Bench blokğunun child'ı oluyor
 
                     StartCoroutine(UpgradeUnitQue(board, tempSelectedUnit));
-                    board.CountPlayerUnits();
-
+                    
                     tempSelectedUnit = null;
                     break;
 
